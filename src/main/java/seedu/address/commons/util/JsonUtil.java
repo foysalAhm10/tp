@@ -56,7 +56,7 @@ public class JsonUtil {
      * @param classOfObjectToDeserialize JSON file has to correspond to the structure in the class given here.
      * @throws DataLoadingException if loading of the JSON file failed.
      */
-    public static <T> Optional<T>   readJsonFile(
+    public static <T> Optional<T> readJsonFile(
             Path filePath, Class<T> classOfObjectToDeserialize) throws DataLoadingException {
         requireNonNull(filePath);
 

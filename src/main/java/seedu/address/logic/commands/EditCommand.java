@@ -23,8 +23,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.location.Address;
 import seedu.address.model.location.Email;
-import seedu.address.model.location.Name;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -92,7 +92,8 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Location} with the details of {@code locationToEdit}
      * edited with {@code editLocationDescriptor}.
      */
-    private static Location createEditedLocation(Location locationToEdit, EditLocationDescriptor editLocationDescriptor) {
+    private static Location createEditedLocation(Location locationToEdit,
+                                                 EditLocationDescriptor editLocationDescriptor) {
         assert locationToEdit != null;
 
         Name updatedName = editLocationDescriptor.getName().orElse(locationToEdit.getName());

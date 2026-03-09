@@ -14,8 +14,8 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.location.Address;
 import seedu.address.model.location.Email;
-import seedu.address.model.location.Name;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.tag.Tag;
 

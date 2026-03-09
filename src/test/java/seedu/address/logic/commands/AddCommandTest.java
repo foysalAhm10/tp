@@ -50,7 +50,8 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(validLocation);
         ModelStub modelStub = new ModelStubWithLocation(validLocation);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_LOCATION, () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+                AddCommand.MESSAGE_DUPLICATE_LOCATION, () -> addCommand.execute(modelStub));
     }
 
     @Test

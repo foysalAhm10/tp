@@ -72,7 +72,7 @@ public interface Model {
     /**
      * Replaces the given location {@code target} with {@code editedLocation}.
      * {@code target} must exist in the address book.
-     * The location identity of {@code editedLocation} must not be the same as another existing location in the address book.
+     * The location identity of {@code editedLocation} must not be the same as another existing one in the address book.
      */
     void setLocation(Location target, Location editedLocation);
 

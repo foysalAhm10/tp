@@ -41,7 +41,8 @@ public class EditCommandTest {
         EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder(editedLocation).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_LOCATION, descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
+        String expectedMessage = String.format(
+                EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setLocation(model.getFilteredLocationList().get(0), editedLocation);
@@ -62,7 +63,8 @@ public class EditCommandTest {
                 .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditCommand(indexLastLocation, descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
+        String expectedMessage = String.format(
+                EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setLocation(lastLocation, editedLocation);
@@ -75,7 +77,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_LOCATION, new EditLocationDescriptor());
         Location editedLocation = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
+        String expectedMessage = String.format(
+                EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -91,7 +94,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_LOCATION,
                 new EditLocationDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
+        String expectedMessage = String.format(
+                EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setLocation(model.getFilteredLocationList().get(0), editedLocation);

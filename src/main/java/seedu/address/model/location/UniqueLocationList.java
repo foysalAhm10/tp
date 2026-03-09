@@ -13,10 +13,10 @@ import seedu.address.model.location.exceptions.LocationNotFoundException;
 
 /**
  * A list of locations that enforces uniqueness between its elements and does not allow nulls.
- * A Location is considered unique by comparing using {@code location#isSameLocation(Location)}. As such, adding and updating of
- * locations uses Location#isSameLocation(Location) for equality so as to ensure that the location being added or updated is
- * unique in terms of identity in the UniqueLocationList. However, the removal of a location uses Location#equals(Object) so
- * as to ensure that the location with exactly the same fields will be removed.
+ * A Location is considered unique by comparing using {@code location#isSameLocation(Location)}. As such, adding and
+ * updating of locations uses Location#isSameLocation(Location) for equality so as to ensure that the location being
+ * added or updated is unique in terms of identity in the UniqueLocationList. However, the removal of a location uses
+ * Location#equals(Object) so as to ensure that the location with exactly the same fields will be removed.
  *
  * Supports a minimal set of list operations.
  *

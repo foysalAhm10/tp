@@ -159,7 +159,8 @@ public class UniqueLocationListTest {
     @Test
     public void setLocations_listWithDuplicateLocations_throwsDuplicateLocationException() {
         List<Location> listWithDuplicateLocations = Arrays.asList(ALICE, ALICE);
-        assertThrows(DuplicateLocationException.class, () -> uniqueLocationList.setLocations(listWithDuplicateLocations));
+        assertThrows(
+                DuplicateLocationException.class, () -> uniqueLocationList.setLocations(listWithDuplicateLocations));
     }
 
     @Test
