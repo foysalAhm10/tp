@@ -5,14 +5,35 @@
 
 ## About
 ***
-AddressMe is an app that...
 
+Are you tired of organizing trips in scattered notes and maps, and losing track of which places to go in the actual trip?
+
+Fret not, for AddressMe is designed for you! 
+
+AddressMe is a desktop application which helps you organize destinations for curious explorers who
+want a quick and efficient way to store destinations during trips.
+
+Add contacts, places of interest, restaurants and accommodation; as a bonus, organise them quickly using commands instead of graphical interfaces!
 
 ## User Interface
 ![Ui](docs/images/Ui.png)
 
 ## Features
 ***
+
+- Add/edit/delete places 
+- Shortcuts and accessibility
+  - Help and examples for first-time users
+  - Confirmation for deletions, and an undo button
+  - Option for a user to shorten or specify commands to accelerate usage speed
+  - Add ability to change font size
+- Tagging and grouping
+  - Tag places to group places with similar purposes
+  - Reduce clutter when focusing on one group
+  - Archiving of entries
+- Dates and schedules
+  - Add planned visit dates to a place
+  - View upcoming visits in sorted time order
 
 
 ## Usage
