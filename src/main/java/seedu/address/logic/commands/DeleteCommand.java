@@ -33,6 +33,13 @@ public class DeleteCommand extends Command {
 
     private final List<Index> targetIndexes;
 
+    /**
+     * Creates a {@code DeleteCommand} to delete the locations at the specified indices.
+     *
+     * @param targetIndexes A non-empty list of indices to delete.
+     * @throws NullPointerException if {@code targetIndexes} is null.
+     * @throws IllegalArgumentException if {@code targetIndexes} is empty.
+     */
     public DeleteCommand(List<Index> targetIndexes) {
         requireNonNull(targetIndexes);
         if (targetIndexes.isEmpty()) {
