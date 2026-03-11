@@ -130,17 +130,19 @@ Examples:
 
 ### Deleting a location : `delete`
 
-Deletes the specified location from the address book.
+Deletes one or more specified locations from the address book.
 
-Format: `delete INDEX`
+Format: `delete INDEX [MORE_INDEXES]...`
 
-* Deletes the location at the specified `INDEX`.
-* The index refers to the index number shown in the displayed location list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Deletes the locations at the specified `INDEX` values.
+* The indices refer to the index numbers shown in the displayed location list.
+* Every index **must be a positive integer** 1, 2, 3, …​
+* Duplicate indices are not allowed.
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd location in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st location in the results of the `find` command.
+* `find Sentosa` followed by `delete 1` deletes the 1st location in the results of the `find` command.
+* `list` followed by `delete 1 3 5` deletes the 1st, 3rd, and 5th locations in the address book.
 
 ### Clearing all entries : `clear`
 
@@ -193,7 +195,7 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Delete** | `delete INDEX [MORE_INDEXES]...`<br> e.g., `delete 3` or `delete 1 2 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`

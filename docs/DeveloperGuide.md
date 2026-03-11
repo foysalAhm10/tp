@@ -427,14 +427,14 @@ Use case ends.
 
 ---
 
-**Use case: Delete a location**
+**Use case: Delete one or more locations**
 
 **MSS**
 
 1. User requests to list locations.
 2. AddressMe shows a list of locations.
-3. User requests to delete a specific location.
-4. AddressMe deletes the location.
+3. User requests to delete one or more locations.
+4. AddressMe deletes all specified locations.
 Use case ends.
 
 **Extensions**
@@ -444,14 +444,20 @@ Use case ends.
 Use case ends.
 
 
-* 3a. The given index is invalid.
+* 3a. At least one given index is invalid.
 * 3a1. AddressMe shows an error message.
 * 3a2. AddressMe lists the available locations again.
 Use case resumes at step 2.
 
 
-* 4a. An error occurs during deletion.
-* 4a1. AddressMe informs the user that the deletion failed.
+* 3b. Duplicate indices are provided (e.g., `delete 2 2`).
+* 3b1. AddressMe shows an error message.
+* 3b2. AddressMe lists the available locations again.
+Use case resumes at step 2.
+
+
+* 5a. An error occurs during deletion.
+* 5a1. AddressMe informs the user that the deletion failed.
 Use case ends.
 
 
@@ -516,10 +522,13 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
+   1. Test case: `delete 1 2`<br>
+      Expected: First and second contacts are deleted from the list. Number of deleted locations shown in the status message. Timestamp in the status bar is updated.
+
    1. Test case: `delete 0`<br>
       Expected: No location is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+   1. Other incorrect delete commands to try: `delete`, `delete x`, `delete 1 1`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
