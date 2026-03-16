@@ -39,6 +39,8 @@ public class LocationCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label visitDate;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -52,6 +54,7 @@ public class LocationCard extends UiPart<Region> {
         phone.setText(location.getPhone().value);
         address.setText(location.getAddress().value);
         email.setText(location.getEmail().value);
+        visitDate.setText(location.getVisitDate().toString());
         location.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
