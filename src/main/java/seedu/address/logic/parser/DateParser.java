@@ -39,17 +39,24 @@ public class DateParser {
             DateTimeFormatter.ofPattern("d-M")
     );
 
-    private static final DateTimeFormatter DAY_OF_WEEK_FORMATTER = DateTimeFormatter.ofPattern(
-            "E", Locale.ENGLISH);
+    private static final List<DateTimeFormatter> DAY_OF_WEEK_FORMATTER = List.of(
+            DateTimeFormatter.ofPattern("EEE", Locale.ENGLISH),
+            DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH)
+    );
 
     /**
      * Reads a string and converts it to a Date object
+     *
      * @param input String to be parsed into a date
      * @return a LocalDate representation of the input
      * @throws IllegalValueException if the string cannot fit into any DateTimeFormat
      */
     public static LocalDate parse(String input) throws IllegalValueException {
         input = input.trim();
+
+        if (input.isEmpty()) {
+            throw new IllegalValueException(MESSAGE_WRONG_DATE_FORMAT);
+        }
 
         // try to match date formatter with year
         for (DateTimeFormatter formatter : DATE_FORMATTERS) {
@@ -71,12 +78,17 @@ public class DateParser {
             }
         }
 
+        // capitalize just the first letter (Assuming it is day of the week)
+        input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+
         // try to match day of the week e.g. Tue, Thur, Friday
-        try {
-            DayOfWeek day = DayOfWeek.from(DAY_OF_WEEK_FORMATTER.parse(input));
-            return today.with(TemporalAdjusters.next(day));
-        } catch (DateTimeParseException e) {
-            //ignore since exception is thrown below
+        for (DateTimeFormatter formatter : DAY_OF_WEEK_FORMATTER) {
+            try {
+                DayOfWeek day = DayOfWeek.from(formatter.parse(input));
+                return today.with(TemporalAdjusters.nextOrSame(day));
+            } catch (DateTimeParseException e) {
+                //ignore since exception is thrown below
+            }
         }
 
         throw new IllegalValueException(MESSAGE_WRONG_DATE_FORMAT);
@@ -84,6 +96,7 @@ public class DateParser {
 
     /**
      * Converts a LocalDate object back into a string to be stored on in data files
+     *
      * @param date LocalDate object to be converted
      * @return a string representation of date/datetime
      */
@@ -93,6 +106,7 @@ public class DateParser {
 
     /**
      * Converts a LocalDate into the output format of dates to users
+     *
      * @param date LocalDate to convert
      * @return a String to be printed to user that looks good
      */
@@ -102,7 +116,8 @@ public class DateParser {
 
     /**
      * Converts a day and month to LocalDate by taking the nearest upcoming date
-     * @param today LocalDate representing the current date
+     *
+     * @param today      LocalDate representing the current date
      * @param dateParsed MonthDay to be converted
      * @return The date with year adjusted
      */

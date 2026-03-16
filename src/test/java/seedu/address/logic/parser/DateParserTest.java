@@ -104,11 +104,33 @@ public class DateParserTest {
     }
 
     // ---------- Days of Week tests ----------
+    @Test
     void testDayShortForm_everyDayOfWeek() throws IllegalValueException {
         LocalDate today = LocalDate.now();
 
         String[] shortDays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         String[] fullDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        DayOfWeek[] dow = {
+            DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY,
+            DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY};
+
+        for (int i = 0; i < dow.length; i++) {
+            LocalDate expected = today.with(TemporalAdjusters.nextOrSame(dow[i]));
+
+            LocalDate parsedShort = DateParser.parse(shortDays[i]);
+            LocalDate parsedFull = DateParser.parse(fullDays[i]);
+
+            assertEquals(expected, parsedShort, "Failed parsing short day: " + shortDays[i]);
+            assertEquals(expected, parsedFull, "Failed parsing full day: " + fullDays[i]);
+        }
+    }
+
+    @Test
+    void testeveryDayOfWeek_unevenCaps() throws IllegalValueException {
+        LocalDate today = LocalDate.now();
+
+        String[] shortDays = {"mon", "Tue", "wed", "Thu", "FrI", "SAT", "Sun"};
+        String[] fullDays = {"Monday", "TUESDAY", "WednesDay", "thursday", "Friday", "Saturday", "Sunday"};
         DayOfWeek[] dow = {
             DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY,
             DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY};
