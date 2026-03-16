@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+AddressMe is a **desktop app for managing destinations, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AddressMe can get your contact management tasks done faster than traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -73,74 +73,79 @@ Shows a message explaining how to access the help page.
 Format: `help`
 
 
-### Adding a person: `add`
+### Adding a location: `add`
 
-Adds a person to the address book.
+Adds a location to the address book.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+A location can have any number of tags (including 0)
 </div>
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
-### Listing all persons : `list`
+### Listing all locations : `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all locations in the address book.
 
 Format: `list`
 
-### Editing a person : `edit`
+### Editing a location : `edit`
 
-Edits an existing person in the address book.
+Edits an existing location in the address book.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+* When editing tags, the existing tags of the location will be removed i.e adding of tags is not cumulative.
+* You can remove all the location’s tags by typing `t/` without
     specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st location to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd location to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name: `find`
+### Locating locations by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds locations whose names contain any of the given keywords using substring matching.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case-insensitive. e.g `thai` will match `Thai Pavilion`
+* The order of the keywords does not matter. e.g. `Restaurant Marina` will match `Marina Restaurant`
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* **Substring matching is supported** e.g. `Han` will match `Hanjin Hotel`, `Jo` will match `John's Brewery`, `ast` will match `Castle Museum`
+* Locations matching at least one keyword will be returned (i.e. `OR` search).
+  e.g. `Ramen Cafe` will return `Ramen House`, `Cafe Mocha`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find Restaurant` returns all locations with "Restaurant" in the name
+* `find Han` returns `Hanjin Hotel`, `Hana Sushi` (substring prefix match)
+* `find otel` returns all locations with "otel" such as `Hotel Marina`, `Motel Inn` (substring middle match)
+* `find Marina Beach` returns `Marina Park`, `Beach Resort`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find Ramen` returns all ramen restaurants (substring matching without requiring full word)
 
-### Deleting a person : `delete`
+### Deleting a location : `delete`
 
-Deletes the specified person from the address book.
+Deletes one or more specified locations from the address book.
 
-Format: `delete INDEX`
+Format: `delete INDEX [MORE_INDEXES]...`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Deletes the locations at the specified `INDEX` values.
+* The indices refer to the index numbers shown in the displayed location list.
+* Every index **must be a positive integer** 1, 2, 3, …​
+* Duplicate indices are not allowed.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `list` followed by `delete 2` deletes the 2nd location in the address book.
+* `find Sentosa` followed by `delete 1` deletes the 1st location in the results of the `find` command.
+* `list` followed by `delete 1 3 5` deletes the 1st, 3rd, and 5th locations in the address book.
 
 ### Clearing all entries : `clear`
 
@@ -171,6 +176,22 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 
 _Details coming soon ..._
 
+## CLI Features
+
+### Accessing input history
+During the session, your inputs are recorded.
+
+While clicked into the CLI, press the `UP arrow` and `DOWN arrow` to navigate through previously entered commands.
+
+E.g. After entering `list` and `find John` into the CLI, pressing `UP` while in the empty text field will write `find John` in the textbox. Pressing `UP` again will replace it with `list`.
+
+### Autocomplete
+While having text in the command line, the user can press the `Tab` key to attempt to autocomplete the command.
+
+The autocomplete uses the current text to find matching command keywords, while being case-insensitive. If there are multiple matches, it fills to the longest shared prefix.
+
+E.g. `A` autocompletes into `add`, while `e` autocompletes to `e`, since both `exit` and `edit` are possible commands.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -193,7 +214,7 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Delete** | `delete INDEX [MORE_INDEXES]...`<br> e.g., `delete 3` or `delete 1 2 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
