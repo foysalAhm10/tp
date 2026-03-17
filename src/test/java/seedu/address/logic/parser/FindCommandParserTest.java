@@ -3,6 +3,9 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -17,7 +20,9 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.location.AddressContainsKeywordsPredicate;
 import seedu.address.model.location.CombinedLocationPredicate;
+import seedu.address.model.location.EmailContainsKeywordsPredicate;
 import seedu.address.model.location.NameContainsKeywordsPredicate;
+import seedu.address.model.location.PhoneContainsKeywordsPredicate;
 import seedu.address.model.location.TagMatchesKeywordsPredicate;
 import seedu.address.model.location.VisitDateMatchesKeywordsPredicate;
 
@@ -44,8 +49,26 @@ public class FindCommandParserTest {
 
     @Test
     public void parse_prefixArgs_returnsFindCommand() {
-        // Address prefix
+        // Name prefix
         FindCommand expectedFindCommand =
+                new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
+                        new NameContainsKeywordsPredicate(Collections.singletonList("Alice")))));
+        assertParseSuccess(parser, " " + PREFIX_NAME + "Alice", expectedFindCommand);
+
+        // Phone prefix
+        expectedFindCommand =
+                new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
+                        new PhoneContainsKeywordsPredicate("9123"))));
+        assertParseSuccess(parser, " " + PREFIX_PHONE + "9123", expectedFindCommand);
+
+        // Email prefix
+        expectedFindCommand =
+                new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
+                        new EmailContainsKeywordsPredicate("alice@example.com"))));
+        assertParseSuccess(parser, " " + PREFIX_EMAIL + "alice@example.com", expectedFindCommand);
+
+        // Address prefix
+        expectedFindCommand =
                 new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
                         new AddressContainsKeywordsPredicate("Clementi"))));
         assertParseSuccess(parser, " " + PREFIX_ADDRESS + "Clementi", expectedFindCommand);
