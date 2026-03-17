@@ -8,6 +8,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_ADD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_REMOVE;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -35,7 +37,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_DATE, PREFIX_TAG);
+                        PREFIX_DATE, PREFIX_TAG,
+                        PREFIX_TAG_ADD, PREFIX_TAG_REMOVE);
 
         Index index;
 
@@ -46,6 +49,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+        validateTagPrefixCombination(argMultimap);
 
         EditLocationDescriptor editLocationDescriptor = new EditLocationDescriptor();
 
@@ -63,7 +67,12 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         parseVisitDatesForEdit(argMultimap.getAllValues(PREFIX_DATE))
                 .ifPresent(editLocationDescriptor::setVisitDates);
+
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editLocationDescriptor::setTags);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG_ADD))
+                .ifPresent(editLocationDescriptor::setTagsToAdd);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG_REMOVE))
+                .ifPresent(editLocationDescriptor::setTagsToRemove);
 
         if (!editLocationDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
@@ -71,6 +80,17 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         return new EditCommand(index, editLocationDescriptor);
     }
+
+    private void validateTagPrefixCombination(ArgumentMultimap argMultimap) throws ParseException {
+        boolean hasTagOverride = !argMultimap.getAllValues(PREFIX_TAG).isEmpty();
+        boolean hasTagAdd = !argMultimap.getAllValues(PREFIX_TAG_ADD).isEmpty();
+        boolean hasTagRemove = !argMultimap.getAllValues(PREFIX_TAG_REMOVE).isEmpty();
+
+        if (hasTagOverride && (hasTagAdd || hasTagRemove)) {
+            throw new ParseException(EditCommand.MESSAGE_CANNOT_OVERRIDE_AND_MODIFY_TAGS);
+        }
+    }
+
 
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.

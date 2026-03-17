@@ -54,6 +54,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_LOCATION_SUCCESS = "Edited Location: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_LOCATION = "This location already exists in the address book.";
+    public static final String MESSAGE_CANNOT_OVERRIDE_AND_MODIFY_TAGS = "Cannot combine t/ with t+/ or t-/";
 
     private final Index index;
     private final EditLocationDescriptor editLocationDescriptor;
@@ -103,8 +104,18 @@ public class EditCommand extends Command {
         Phone updatedPhone = editLocationDescriptor.getPhone().orElse(locationToEdit.getPhone());
         Email updatedEmail = editLocationDescriptor.getEmail().orElse(locationToEdit.getEmail());
         Address updatedAddress = editLocationDescriptor.getAddress().orElse(locationToEdit.getAddress());
-        Set<VisitDate> updatedVisitDates = editLocationDescriptor.getVisitDates().orElse(locationToEdit.getVisitDates());
-        Set<Tag> updatedTags = editLocationDescriptor.getTags().orElse(locationToEdit.getTags());
+        Set<VisitDate> updatedVisitDates =
+                new HashSet<>(editLocationDescriptor.getVisitDates().orElse(locationToEdit.getVisitDates()));
+
+        Set<Tag> updatedTags;
+
+        if (editLocationDescriptor.getTags().isPresent()) {
+            updatedTags = new HashSet<>(editLocationDescriptor.getTags().get());
+        } else {
+            updatedTags = new HashSet<>(locationToEdit.getTags());
+            editLocationDescriptor.getTagsToAdd().ifPresent(updatedTags::addAll);
+            editLocationDescriptor.getTagsToRemove().ifPresent(updatedTags::removeAll);
+        }
 
         return new Location(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedVisitDates, updatedTags);
     }
@@ -145,6 +156,9 @@ public class EditCommand extends Command {
         private Set<VisitDate> visitDates;
         private Set<Tag> tags;
 
+        private Set<Tag> tagsToAdd;
+        private Set<Tag> tagsToRemove;
+
         public EditLocationDescriptor() {}
 
         /**
@@ -158,13 +172,18 @@ public class EditCommand extends Command {
             setAddress(toCopy.address);
             setVisitDates(toCopy.visitDates);
             setTags(toCopy.tags);
+            setTagsToAdd(toCopy.tagsToAdd);
+            setTagsToRemove(toCopy.tagsToRemove);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, visitDates, tags);
+            return CollectionUtil.isAnyNonNull(
+                    name, phone, email, address, visitDates, tags,
+                    tagsToAdd, tagsToRemove
+            );
         }
 
         public void setName(Name name) {
@@ -224,6 +243,22 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        public void setTagsToAdd(Set<Tag> tagsToAdd) {
+            this.tagsToAdd = (tagsToAdd != null) ? new HashSet<>(tagsToAdd) : null;
+        }
+
+        public Optional<Set<Tag>> getTagsToAdd() {
+            return (tagsToAdd != null) ? Optional.of(Collections.unmodifiableSet(tagsToAdd)) : Optional.empty();
+        }
+
+        public void setTagsToRemove(Set<Tag> tagsToRemove) {
+            this.tagsToRemove = (tagsToRemove != null) ? new HashSet<>(tagsToRemove) : null;
+        }
+
+        public Optional<Set<Tag>> getTagsToRemove() {
+            return (tagsToRemove != null) ? Optional.of(Collections.unmodifiableSet(tagsToRemove)) : Optional.empty();
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -241,7 +276,9 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditLocationDescriptor.email)
                     && Objects.equals(address, otherEditLocationDescriptor.address)
                     && Objects.equals(visitDates, otherEditLocationDescriptor.visitDates)
-                    && Objects.equals(tags, otherEditLocationDescriptor.tags);
+                    && Objects.equals(tags, otherEditLocationDescriptor.tags)
+                    && Objects.equals(tagsToAdd, otherEditLocationDescriptor.tagsToAdd)
+                    && Objects.equals(tagsToRemove, otherEditLocationDescriptor.tagsToRemove);
         }
 
         @Override
@@ -253,6 +290,8 @@ public class EditCommand extends Command {
                     .add("address", address)
                     .add("visitDates", visitDates)
                     .add("tags", tags)
+                    .add("tagsToAdd", tagsToAdd)
+                    .add("tagsToRemove", tagsToRemove)
                     .toString();
         }
     }

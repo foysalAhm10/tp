@@ -12,7 +12,6 @@ import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.util.SampleDataUtil;
 
 /**
  * A utility class to help with building EditLocationDescriptor objects.
@@ -79,7 +78,7 @@ public class EditLocationDescriptorBuilder {
      */
     public EditLocationDescriptorBuilder withVisitDates(String... visitDates) {
         Set<VisitDate> visitDateSet = Stream.of(visitDates).map(VisitDate::new).collect(Collectors.toSet());
-        descriptor.setVisitDates(SampleDataUtil.getVisitDateSet(visitDates));
+        descriptor.setVisitDates(visitDateSet);
         return this;
     }
 
@@ -98,6 +97,18 @@ public class EditLocationDescriptorBuilder {
     public EditLocationDescriptorBuilder withTags(String... tags) {
         Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
         descriptor.setTags(tagSet);
+        return this;
+    }
+
+    public EditLocationDescriptorBuilder withTagsToAdd(String... tags) {
+        Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
+        descriptor.setTagsToAdd(tagSet);
+        return this;
+    }
+
+    public EditLocationDescriptorBuilder withTagsToRemove(String... tags) {
+        Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
+        descriptor.setTagsToRemove(tagSet);
         return this;
     }
 
