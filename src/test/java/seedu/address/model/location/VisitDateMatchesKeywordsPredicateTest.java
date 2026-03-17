@@ -24,7 +24,8 @@ public class VisitDateMatchesKeywordsPredicateTest {
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        VisitDateMatchesKeywordsPredicate firstPredicateCopy = new VisitDateMatchesKeywordsPredicate(firstPredicateDate);
+        VisitDateMatchesKeywordsPredicate firstPredicateCopy =
+                new VisitDateMatchesKeywordsPredicate(firstPredicateDate);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -40,14 +41,16 @@ public class VisitDateMatchesKeywordsPredicateTest {
     @Test
     public void test_visitDateMatchesKeywords_returnsTrue() {
         // Matching date
-        VisitDateMatchesKeywordsPredicate predicate = new VisitDateMatchesKeywordsPredicate(LocalDate.parse("2024-01-15"));
+        VisitDateMatchesKeywordsPredicate predicate =
+                new VisitDateMatchesKeywordsPredicate(LocalDate.parse("2024-01-15"));
         assertTrue(predicate.test(new LocationBuilder().withVisitDate("2024-01-15").build()));
     }
 
     @Test
     public void test_visitDateDoesNotMatchKeywords_returnsFalse() {
         // Non-matching date
-        VisitDateMatchesKeywordsPredicate predicate = new VisitDateMatchesKeywordsPredicate(LocalDate.parse("2024-01-15"));
+        VisitDateMatchesKeywordsPredicate predicate =
+                new VisitDateMatchesKeywordsPredicate(LocalDate.parse("2024-01-15"));
         assertFalse(predicate.test(new LocationBuilder().withVisitDate("2024-01-16").build()));
     }
 

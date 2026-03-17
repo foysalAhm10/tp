@@ -17,8 +17,11 @@ public class CombinedLocationPredicateTest {
 
     @Test
     public void equals() {
-        List<Predicate<Location>> firstPredicateList = Collections.singletonList(new NameContainsKeywordsPredicate(Collections.singletonList("first")));
-        List<Predicate<Location>> secondPredicateList = Arrays.asList(new NameContainsKeywordsPredicate(Collections.singletonList("first")), new TagMatchesKeywordsPredicate("tag"));
+        List<Predicate<Location>> firstPredicateList = Collections.singletonList(
+                new NameContainsKeywordsPredicate(Collections.singletonList("first")));
+        List<Predicate<Location>> secondPredicateList = Arrays.asList(
+                new NameContainsKeywordsPredicate(Collections.singletonList("first")),
+                new TagMatchesKeywordsPredicate("tag"));
 
         CombinedLocationPredicate firstPredicate = new CombinedLocationPredicate(firstPredicateList);
         CombinedLocationPredicate secondPredicate = new CombinedLocationPredicate(secondPredicateList);
@@ -65,7 +68,8 @@ public class CombinedLocationPredicateTest {
 
     @Test
     public void toStringMethod() {
-        List<Predicate<Location>> predicates = Collections.singletonList(new NameContainsKeywordsPredicate(Collections.singletonList("Alice")));
+        List<Predicate<Location>> predicates = Collections.singletonList(
+                new NameContainsKeywordsPredicate(Collections.singletonList("Alice")));
         CombinedLocationPredicate predicate = new CombinedLocationPredicate(predicates);
         String expected = CombinedLocationPredicate.class.getCanonicalName() + "{predicates=" + predicates + "}";
         assertEquals(expected, predicate.toString());

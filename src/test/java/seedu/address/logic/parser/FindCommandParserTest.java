@@ -13,7 +13,6 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
