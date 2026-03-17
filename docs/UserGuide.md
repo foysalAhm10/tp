@@ -61,6 +61,13 @@ AddressMe is a **desktop app for managing destinations, optimized for use via a 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
+* Date fields support the formats: `yyyy/M/d`, `d/M/yyyy`, `d/M/yy` as well as hyphenated variants. 
+E.g. 2 Jan 2026 can be typed as `2026/01/02`, `2/1/26`, `2026-1-02`, `02-1-2026`.
+* Date fields support optional years: `d/M` and `d-M`. It will default to a date that has not passed.
+E.g. If today was 2 Jan 2026, `01/01` would be 1 Jan 2027, `2/1` would be 2 Jan 2026, `3/1` would be 3 Jan 2026
+* Date fields support days of the week, e.g. `Tue`, `Friday` (non-case-sensitive). It will default to the upcoming day of the week.
+E.g. If today was Tuesday, `Tue` would be today, `Wednesday` would be tomorrow, `Mon` would be next Monday.
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
