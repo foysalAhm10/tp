@@ -166,9 +166,9 @@ public class DateParserTest {
 
     @Test
     void testPrettyStringConversion() {
-        assertEquals("5 May, 26", DateParser.dateToPrettyString(LocalDate.of(2026, 5, 5)));
-        assertEquals("31 Oct, 26", DateParser.dateToPrettyString(LocalDate.of(2026, 10, 31)));
-        assertEquals("14 Mar, 27", DateParser.dateToPrettyString(LocalDate.of(2027, 3, 14)));
+        assertEquals("Tuesday, 5 May 2026", DateParser.dateToPrettyString(LocalDate.of(2026, 5, 5)));
+        assertEquals("Saturday, 31 Oct 2026", DateParser.dateToPrettyString(LocalDate.of(2026, 10, 31)));
+        assertEquals("Sunday, 14 Mar 2027", DateParser.dateToPrettyString(LocalDate.of(2027, 3, 14)));
     }
 
 }

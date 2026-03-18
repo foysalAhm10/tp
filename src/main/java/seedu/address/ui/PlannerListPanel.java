@@ -11,8 +11,6 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.location.Location;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * Panel containing the planner.
  */

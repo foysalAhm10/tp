@@ -61,7 +61,7 @@ AddressMe is a **desktop app for managing destinations, optimized for use via a 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* Date fields support the formats: `yyyy/M/d`, `d/M/yyyy`, `d/M/yy` as well as hyphenated variants. 
+* Date fields support the formats: `yyyy/M/d`, `d/M/yyyy`, `d/M/yy` as well as hyphenated variants.
 E.g. 2 Jan 2026 can be typed as `2026/01/02`, `2/1/26`, `2026-1-02`, `02-1-2026`.
 * Date fields support optional years: `d/M` and `d-M`. It will default to a date that has not passed.
 E.g. If today was 2 Jan 2026, `01/01` would be 1 Jan 2027, `2/1` would be 2 Jan 2026, `3/1` would be 3 Jan 2026
@@ -153,6 +153,19 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd location in the address book.
 * `find Sentosa` followed by `delete 1` deletes the 1st location in the results of the `find` command.
 * `list` followed by `delete 1 3 5` deletes the 1st, 3rd, and 5th locations in the address book.
+
+### Using the itinerary planner : `plan`
+
+Displays the list of locations assigned to a date.
+
+Format: `plan [DATE]`
+
+* Displays all the locations with the specific date in the GUI for easy cross-referencing
+* If used without a date input, clears the planner instead.
+
+Examples:
+* `plan 12/3/26` shows the locations planned for 12 March 2026 on the planner.
+* `plan` clears the planner page.
 
 ### Clearing all entries : `clear`
 

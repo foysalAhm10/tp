@@ -36,7 +36,8 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredLocations = new FilteredList<>(this.addressBook.getLocationList());
-        plannerLocations = new FilteredList<>(this.addressBook.getLocationList());
+        plannerLocations = new FilteredList<>(
+                this.addressBook.getLocationList()).filtered(PREDICATE_HIDE_ALL_LOCATIONS);
     }
 
     public ModelManager() {

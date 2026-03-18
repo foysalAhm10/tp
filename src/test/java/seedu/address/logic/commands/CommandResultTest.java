@@ -50,6 +50,9 @@ public class CommandResultTest {
 
         // different exit value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", null, false, true).hashCode());
+
+        // different planner feedback value -> returns different hashcode
+        assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", "planner", false, true).hashCode());
     }
 
     @Test
