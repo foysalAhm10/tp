@@ -39,22 +39,25 @@ public class LocationCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label postalCode;
+    @FXML
     private Label visitDate;
     @FXML
     private FlowPane tags;
 
     /**
-     * Creates a {@code LocationCode} with the given {@code Location} and index to display.
+     * Creates a {@code LocationCard} with the given {@code Location} and index to display.
      */
     public LocationCard(Location location, int displayedIndex) {
         super(FXML);
         this.location = location;
         id.setText(displayedIndex + ". ");
         name.setText(location.getName().fullName);
-        phone.setText(location.getPhone().value);
-        address.setText(location.getAddress().value);
-        email.setText(location.getEmail().value);
-        visitDate.setText(location.getVisitDate().toString());
+        phone.setText("Phone: " + location.getPhone().map(p -> p.value).orElse("-"));
+        address.setText("Address: " + location.getAddress().map(a -> a.value).orElse("-"));
+        email.setText("Email: " + location.getEmail().map(e -> e.value).orElse("-"));
+        postalCode.setText("Postal Code: " + location.getPostalCode().map(p -> p.value).orElse("-"));
+        visitDate.setText("Visit Date: " + location.getVisitDate().map(Object::toString).orElse("-"));
         location.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

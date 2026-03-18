@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSTAL_CODE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
@@ -31,14 +32,21 @@ public class LocationUtil {
      */
     public static String getLocationDetails(Location location) {
         StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_NAME + location.getName().fullName + " ");
-        sb.append(PREFIX_PHONE + location.getPhone().value + " ");
-        sb.append(PREFIX_EMAIL + location.getEmail().value + " ");
-        sb.append(PREFIX_ADDRESS + location.getAddress().value + " ");
-        sb.append(PREFIX_DATE + location.getVisitDate().toString() + " ");
-        location.getTags().stream().forEach(
-            s -> sb.append(PREFIX_TAG + s.tagName + " ")
-        );
+        sb.append(PREFIX_NAME).append(location.getName().fullName).append(" ");
+
+        location.getPhone().ifPresent(phone ->
+                sb.append(PREFIX_PHONE).append(phone.value).append(" "));
+        location.getEmail().ifPresent(email ->
+                sb.append(PREFIX_EMAIL).append(email.value).append(" "));
+        location.getAddress().ifPresent(address ->
+                sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
+        location.getPostalCode().ifPresent(postalCode ->
+                sb.append(PREFIX_POSTAL_CODE).append(postalCode.value).append(" "));
+        location.getVisitDate().ifPresent(visitDate ->
+                sb.append(PREFIX_DATE).append(visitDate).append(" "));
+
+        location.getTags().forEach(tag ->
+                sb.append(PREFIX_TAG).append(tag.tagName).append(" "));
         return sb.toString();
     }
 

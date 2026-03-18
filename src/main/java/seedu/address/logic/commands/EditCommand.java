@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSTAL_CODE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_LOCATIONS;
 
@@ -27,6 +28,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.PostalCode;
 import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
@@ -45,6 +47,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_POSTAL_CODE + "POSTAL_CODE] "
             + "[" + PREFIX_DATE + "DATE]"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
@@ -100,13 +103,31 @@ public class EditCommand extends Command {
         assert locationToEdit != null;
 
         Name updatedName = editLocationDescriptor.getName().orElse(locationToEdit.getName());
-        Phone updatedPhone = editLocationDescriptor.getPhone().orElse(locationToEdit.getPhone());
-        Email updatedEmail = editLocationDescriptor.getEmail().orElse(locationToEdit.getEmail());
-        Address updatedAddress = editLocationDescriptor.getAddress().orElse(locationToEdit.getAddress());
-        VisitDate updatedVisitDate = editLocationDescriptor.getVisitDate().orElse(locationToEdit.getVisitDate());
+
+        Optional<Phone> updatedPhone = editLocationDescriptor.getPhone().isPresent()
+                ? Optional.of(editLocationDescriptor.getPhone().get())
+                : locationToEdit.getPhone();
+
+        Optional<Email> updatedEmail = editLocationDescriptor.getEmail().isPresent()
+                ? Optional.of(editLocationDescriptor.getEmail().get())
+                : locationToEdit.getEmail();
+
+        Optional<Address> updatedAddress = editLocationDescriptor.getAddress().isPresent()
+                ? Optional.of(editLocationDescriptor.getAddress().get())
+                : locationToEdit.getAddress();
+
+        Optional<PostalCode> updatedPostalCode = editLocationDescriptor.getPostalCode().isPresent()
+                ? Optional.of(editLocationDescriptor.getPostalCode().get())
+                : locationToEdit.getPostalCode();
+
+        Optional<VisitDate> updatedVisitDate = editLocationDescriptor.getVisitDate().isPresent()
+                ? Optional.of(editLocationDescriptor.getVisitDate().get())
+                : locationToEdit.getVisitDate();
+
         Set<Tag> updatedTags = editLocationDescriptor.getTags().orElse(locationToEdit.getTags());
 
-        return new Location(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedVisitDate, updatedTags);
+        return new Location(updatedName, updatedPhone, updatedEmail,
+                updatedAddress, updatedPostalCode, updatedVisitDate, updatedTags);
     }
 
     @Override
@@ -142,6 +163,7 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private Address address;
+        private PostalCode postalCode;
         private VisitDate visitDate;
         private Set<Tag> tags;
 
@@ -156,6 +178,7 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setPostalCode(toCopy.postalCode);
             setVisitDate(toCopy.visitDate);
             setTags(toCopy.tags);
         }
@@ -164,7 +187,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, visitDate, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, postalCode, visitDate, tags);
         }
 
         public void setName(Name name) {
@@ -197,6 +220,14 @@ public class EditCommand extends Command {
 
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
+        }
+
+        public void setPostalCode(PostalCode postalCode) {
+            this.postalCode = postalCode;
+        }
+
+        public Optional<PostalCode> getPostalCode() {
+            return Optional.ofNullable(postalCode);
         }
 
         public void setVisitDate(VisitDate visitDate) {
@@ -240,6 +271,7 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditLocationDescriptor.phone)
                     && Objects.equals(email, otherEditLocationDescriptor.email)
                     && Objects.equals(address, otherEditLocationDescriptor.address)
+                    && Objects.equals(postalCode, otherEditLocationDescriptor.postalCode)
                     && Objects.equals(visitDate, otherEditLocationDescriptor.visitDate)
                     && Objects.equals(tags, otherEditLocationDescriptor.tags);
         }
@@ -251,6 +283,7 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
+                    .add("postalCode", postalCode)
                     .add("visitDate", visitDate)
                     .add("tags", tags)
                     .toString();

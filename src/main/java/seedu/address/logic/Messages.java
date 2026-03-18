@@ -38,14 +38,17 @@ public class Messages {
         final StringBuilder builder = new StringBuilder();
         builder.append(location.getName())
                 .append("; Phone: ")
-                .append(location.getPhone())
+                .append(location.getPhone().map(phone -> phone.value).orElse("-"))
                 .append("; Email: ")
-                .append(location.getEmail())
+                .append(location.getEmail().map(email -> email.value).orElse("-"))
                 .append("; Address: ")
-                .append(location.getAddress())
+                .append(location.getAddress().map(address -> address.value).orElse("-"))
+                .append("; Postal Code: ")
+                .append(location.getPostalCode().map(postalCode -> postalCode.value).orElse("-"))
+                .append("; Visit Date: ")
+                .append(location.getVisitDate().map(Object::toString).orElse("-"))
                 .append("; Tags: ");
         location.getTags().forEach(builder::append);
         return builder.toString();
     }
-
 }

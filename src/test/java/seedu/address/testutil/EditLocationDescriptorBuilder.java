@@ -10,6 +10,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.PostalCode;
 import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
@@ -34,10 +35,11 @@ public class EditLocationDescriptorBuilder {
     public EditLocationDescriptorBuilder(Location location) {
         descriptor = new EditLocationDescriptor();
         descriptor.setName(location.getName());
-        descriptor.setPhone(location.getPhone());
-        descriptor.setEmail(location.getEmail());
-        descriptor.setAddress(location.getAddress());
-        descriptor.setVisitDate(location.getVisitDate());
+        location.getPhone().ifPresent(descriptor::setPhone);
+        location.getEmail().ifPresent(descriptor::setEmail);
+        location.getAddress().ifPresent(descriptor::setAddress);
+        location.getPostalCode().ifPresent(descriptor::setPostalCode);
+        location.getVisitDate().ifPresent(descriptor::setVisitDate);
         descriptor.setTags(location.getTags());
     }
 
@@ -70,6 +72,14 @@ public class EditLocationDescriptorBuilder {
      */
     public EditLocationDescriptorBuilder withAddress(String address) {
         descriptor.setAddress(new Address(address));
+        return this;
+    }
+
+    /**
+     * Sets the {@code PostalCode} of the {@code EditLocationDescriptor} that we are building.
+     */
+    public EditLocationDescriptorBuilder withPostalCode(String postalCode) {
+        descriptor.setPostalCode(new PostalCode(postalCode));
         return this;
     }
 

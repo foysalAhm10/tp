@@ -13,6 +13,7 @@ import seedu.address.model.location.Address;
 import seedu.address.model.location.Email;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.PostalCode;
 import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
@@ -26,6 +27,7 @@ public class ParserUtil {
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
+     *
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
@@ -94,6 +96,21 @@ public class ParserUtil {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
         return new Email(trimmedEmail);
+    }
+
+    /**
+     * Parses a {@code String postalCode} into a {@code PostalCode}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code postalCode} is invalid.
+     */
+    public static PostalCode parsePostalCode(String postalCode) throws ParseException {
+        requireNonNull(postalCode);
+        String trimmedPostalCode = postalCode.trim();
+        if (!PostalCode.isValidPostalCode(trimmedPostalCode)) {
+            throw new ParseException(PostalCode.MESSAGE_CONSTRAINTS);
+        }
+        return new PostalCode(trimmedPostalCode);
     }
 
     /**

@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -18,23 +19,27 @@ public class Location {
 
     // Identity fields
     private final Name name;
-    private final Phone phone;
-    private final Email email;
+    private final Optional<Phone> phone;
+    private final Optional<Email> email;
+    private final Optional<PostalCode> postalCode;
 
     // Data fields
-    private final Address address;
-    private final VisitDate visitDate;
+    private final Optional<Address> address;
+    private final Optional<VisitDate> visitDate;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * Creates a Location, Optional fields may be empty.
      */
-    public Location(Name name, Phone phone, Email email, Address address, VisitDate visitDate, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, visitDate, tags);
+    public Location(Name name, Optional<Phone> phone, Optional<Email> email,
+                    Optional<Address> address, Optional<PostalCode> postalCode,
+                    Optional<VisitDate> visitDate, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, postalCode, visitDate, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.postalCode = postalCode;
         this.visitDate = visitDate;
         this.tags.addAll(tags);
     }
@@ -43,22 +48,25 @@ public class Location {
         return name;
     }
 
-    public Phone getPhone() {
+    public Optional<Phone> getPhone() {
         return phone;
     }
 
-    public Email getEmail() {
+    public Optional<Email> getEmail() {
         return email;
     }
 
-    public Address getAddress() {
+    public Optional<PostalCode> getPostalCode() {
+        return postalCode;
+    }
+
+    public Optional<Address> getAddress() {
         return address;
     }
 
-    public VisitDate getVisitDate() {
+    public Optional<VisitDate> getVisitDate() {
         return visitDate;
     }
-
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -100,6 +108,7 @@ public class Location {
                 && phone.equals(otherLocation.phone)
                 && email.equals(otherLocation.email)
                 && address.equals(otherLocation.address)
+                && postalCode.equals(otherLocation.postalCode)
                 && visitDate.equals(otherLocation.visitDate)
                 && tags.equals(otherLocation.tags);
     }
@@ -107,19 +116,19 @@ public class Location {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, visitDate, tags);
+        return Objects.hash(name, phone, email, address, postalCode, visitDate, tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("visitDate", visitDate)
+                .add("phone", phone.map(Phone::toString).orElse("-"))
+                .add("email", email.map(Email::toString).orElse("-"))
+                .add("address", address.map(Address::toString).orElse("-"))
+                .add("postalCode", postalCode.map(PostalCode::toString).orElse("-"))
+                .add("visitDate", visitDate.map(VisitDate::toString).orElse("-"))
                 .add("tags", tags)
                 .toString();
     }
-
 }
