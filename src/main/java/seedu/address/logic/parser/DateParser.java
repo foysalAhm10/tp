@@ -79,7 +79,7 @@ public class DateParser {
         }
 
         // capitalize just the first letter (Assuming it is day of the week)
-        input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+        input = formatDayOfWeek(input);
 
         // try to match day of the week e.g. Tue, Thur, Friday
         for (DateTimeFormatter formatter : DAY_OF_WEEK_FORMATTER) {
@@ -111,7 +111,10 @@ public class DateParser {
      * @return a String to be printed to user that looks good
      */
     public static String dateToPrettyString(LocalDate date) {
-        return date.format(DateTimeFormatter.ofPattern("d MMM, yy"));
+        if (date == null) {
+            return "";
+        }
+        return date.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy"));
     }
 
     /**
@@ -130,5 +133,12 @@ public class DateParser {
         }
         // date has not passed yet
         return dateThisYear;
+    }
+
+    /**
+     * Converts a string to all lowercase except the first character, which is capitalized
+     */
+    private static String formatDayOfWeek(String input) {
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 }

@@ -4,11 +4,14 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.location.Location;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Panel containing the planner.
@@ -20,6 +23,9 @@ public class PlannerListPanel extends UiPart<Region> {
     @FXML
     private ListView<Location> plannerListView;
 
+    @FXML
+    private Label plannerHeader;
+
     /**
      * Creates a {@code LocationListPanel} with the given {@code ObservableList}.
      */
@@ -27,6 +33,14 @@ public class PlannerListPanel extends UiPart<Region> {
         super(FXML);
         plannerListView.setItems(plannerList);
         plannerListView.setCellFactory(listView -> new PlannerListPanel.PlannerListViewCell());
+    }
+
+    public void setPlannerHeader(String date) {
+        if (date == null || date.isEmpty()) {
+            plannerHeader.setText("Start planning...");
+        } else {
+            plannerHeader.setText(date);
+        }
     }
 
     /**

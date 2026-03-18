@@ -43,7 +43,7 @@ public class PlanCommand extends Command {
 
         model.updatePlannerLocationList(this.date);
 
-        return new CommandResult(generateSuccessMessage(date != null));
+        return new CommandResult(generateSuccessMessage(date != null), DateParser.dateToPrettyString(date));
         /*
         List<Person> lastShownList = model.getFilteredPersonList();
 

@@ -185,6 +185,10 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
+            if (commandResult.getFeedbackToPlanner() != null) {
+                plannerListPanel.setPlannerHeader(commandResult.getFeedbackToPlanner());
+            }
+
             if (commandResult.isShowHelp()) {
                 handleHelp();
             }
