@@ -62,6 +62,14 @@ class JsonAdaptedLocation {
     }
 
     /**
+     * Constructs a {@code JsonAdaptedLocation} with the given location details.
+     */
+    public JsonAdaptedLocation(String name, String phone, String email, String address,
+                               List<String> visitDates, List<JsonAdaptedTag> tags) {
+        this(name, phone, email, address, null, visitDates, tags);
+    }
+
+    /**
      * Converts a given {@code Location} into this class for Jackson use.
      */
     public JsonAdaptedLocation(Location source) {
