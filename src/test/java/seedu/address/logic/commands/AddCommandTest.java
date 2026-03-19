@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -129,6 +130,26 @@ public class AddCommandTest {
 
         @Override
         public void setAddressBookFilePath(Path addressBookFilePath) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Map<String, String> getShortcutMap() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasShortcut(String alias) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setShortcut(String alias, String commandWord) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeShortcut(String alias) {
             throw new AssertionError("This method should not be called.");
         }
 

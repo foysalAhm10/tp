@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents the collection of command keywords available to the user
@@ -26,7 +27,8 @@ public class CommandDatabase {
                 FindCommand.COMMAND_WORD,
                 HelpCommand.COMMAND_WORD,
                 ListCommand.COMMAND_WORD,
-                PlanCommand.COMMAND_WORD);
+                PlanCommand.COMMAND_WORD;
+                ShortcutCommand.COMMAND_WORD);
     }
 
     /**
@@ -52,6 +54,20 @@ public class CommandDatabase {
         }
 
         return longestCommonPrefix(matches);
+    }
+
+    /**
+     * Returns true if {@code commandWord} is a known command word.
+     */
+    public boolean isKnownCommand(String commandWord) {
+        return commands.contains(commandWord.toLowerCase());
+    }
+
+    /**
+     * Returns the known command words.
+     */
+    public Set<String> getCommandWords() {
+        return Set.copyOf(commands);
     }
 
     /**
