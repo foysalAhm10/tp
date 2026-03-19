@@ -35,6 +35,8 @@ public class PlannerCard extends UiPart<Region> {
     @FXML
     private Label address;
     @FXML
+    private Label postalCode;
+    @FXML
     private Label email;
     @FXML
     private FlowPane tags;
@@ -46,9 +48,10 @@ public class PlannerCard extends UiPart<Region> {
         super(FXML);
         this.location = location;
         name.setText(location.getName().fullName);
-        phone.setText(location.getPhone().value);
-        address.setText(location.getAddress().value);
-        email.setText(location.getEmail().value);
+        phone.setText("Phone: " + location.getPhone().map(p -> p.value).orElse("-"));
+        address.setText("Address: " + location.getAddress().map(a -> a.value).orElse("-"));
+        email.setText("Email: " + location.getEmail().map(e -> e.value).orElse("-"));
+        postalCode.setText("Postal Code: " + location.getPostalCode().map(p -> p.value).orElse("-"));
         location.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
