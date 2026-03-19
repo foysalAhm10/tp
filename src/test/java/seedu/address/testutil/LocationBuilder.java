@@ -21,13 +21,12 @@ public class LocationBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    public static final String DEFAULT_VISIT_DATE = "2026-03-12";
 
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
-    private VisitDate visitDate;
+    private Set<VisitDate> visitDates;
     private Set<Tag> tags;
 
     /**
@@ -38,7 +37,7 @@ public class LocationBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
-        visitDate = new VisitDate(DEFAULT_VISIT_DATE);
+        visitDates = new HashSet<>();
         tags = new HashSet<>();
     }
 
@@ -50,7 +49,7 @@ public class LocationBuilder {
         phone = locationToCopy.getPhone();
         email = locationToCopy.getEmail();
         address = locationToCopy.getAddress();
-        visitDate = locationToCopy.getVisitDate();
+        visitDates = new HashSet<>(locationToCopy.getVisitDates());
         tags = new HashSet<>(locationToCopy.getTags());
     }
 
@@ -95,15 +94,15 @@ public class LocationBuilder {
     }
 
     /**
-     * Sets the {@code VisitDate} of the {@code Location} that we are building.
+     * Sets the {@code VisitDates} of the {@code Location} that we are building.
      */
-    public LocationBuilder withVisitDate(String visitDate) {
-        this.visitDate = new VisitDate(visitDate);
+    public LocationBuilder withVisitDates(String... visitDates) {
+        this.visitDates = SampleDataUtil.getVisitDateSet(visitDates);
         return this;
     }
 
     public Location build() {
-        return new Location(name, phone, email, address, visitDate, tags);
+        return new Location(name, phone, email, address, visitDates, tags);
     }
 
 }

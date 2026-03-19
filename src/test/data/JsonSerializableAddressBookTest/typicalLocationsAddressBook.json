@@ -5,49 +5,49 @@
     "phone" : "94351253",
     "email" : "alice@example.com",
     "address" : "123, Jurong West Ave 6, #08-111",
-    "visitDate": "2026-01-07",
+    "visitDates": ["2026-01-07", "2026-01-10"],
     "tags" : [ "friends" ]
   }, {
     "name" : "Benson Meier",
     "phone" : "98765432",
     "email" : "johnd@example.com",
     "address" : "311, Clementi Ave 2, #02-25",
-    "visitDate": "2026-03-15",
+    "visitDates": ["2026-03-15"],
     "tags" : [ "owesMoney", "friends" ]
   }, {
     "name" : "Carl Kurz",
     "phone" : "95352563",
     "email" : "heinz@example.com",
     "address" : "wall street",
-    "visitDate": "2026-04-09",
+    "visitDates": [],
     "tags" : [ ]
   }, {
     "name" : "Daniel Meier",
     "phone" : "87652533",
     "email" : "cornelia@example.com",
     "address" : "10th street",
-    "visitDate": "2026-08-10",
+    "visitDates": ["2026-08-10"],
     "tags" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
     "phone" : "9482224",
     "email" : "werner@example.com",
     "address" : "michegan ave",
-    "visitDate": "2026-05-17",
+    "visitDates": ["2026-05-17"],
     "tags" : [ ]
   }, {
     "name" : "Fiona Kunz",
     "phone" : "9482427",
     "email" : "lydia@example.com",
     "address" : "little tokyo",
-    "visitDate": "2026-10-17",
+    "visitDates": ["2026-10-17"],
     "tags" : [ ]
   }, {
     "name" : "George Best",
     "phone" : "9482442",
     "email" : "anna@example.com",
     "address" : "4th street",
-    "visitDate": "2026-12-31",
+    "visitDates": ["2026-12-31"],
     "tags" : [ ]
   } ]
 }

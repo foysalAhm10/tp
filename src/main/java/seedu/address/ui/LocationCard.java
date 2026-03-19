@@ -8,6 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.VisitDate;
 
 /**
  * An UI component that displays information of a {@code Location}.
@@ -39,7 +40,7 @@ public class LocationCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
-    private Label visitDate;
+    private FlowPane visitDates;
     @FXML
     private FlowPane tags;
 
@@ -54,7 +55,9 @@ public class LocationCard extends UiPart<Region> {
         phone.setText(location.getPhone().value);
         address.setText(location.getAddress().value);
         email.setText(location.getEmail().value);
-        visitDate.setText(location.getVisitDate().toString());
+        location.getVisitDates().stream()
+                .sorted(Comparator.comparing(VisitDate::toString))
+                .forEach(visitDate -> visitDates.getChildren().add(new Label(visitDate.toString())));
         location.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

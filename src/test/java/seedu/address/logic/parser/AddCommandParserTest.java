@@ -29,7 +29,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -93,10 +92,6 @@ public class AddCommandParserTest {
         assertParseFailure(parser, ADDRESS_DESC_AMY + validExpectedLocationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
-        // multiple dates
-        assertParseFailure(parser, DATE_DESC_AMY + validExpectedLocationString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
-
         // multiple fields repeated
         assertParseFailure(parser,
                 validExpectedLocationString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY,
@@ -122,7 +117,7 @@ public class AddCommandParserTest {
 
         // invalid date
         assertParseFailure(parser, INVALID_DATE_DESC + validExpectedLocationString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
+                VisitDate.MESSAGE_CONSTRAINTS);
 
 
         // valid value followed by invalid value
@@ -145,7 +140,7 @@ public class AddCommandParserTest {
 
         // invalid date
         assertParseFailure(parser, validExpectedLocationString + INVALID_DATE_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
+                VisitDate.MESSAGE_CONSTRAINTS);
     }
 
     @Test
@@ -180,14 +175,9 @@ public class AddCommandParserTest {
                         + DATE_DESC_BOB,
                 expectedMessage);
 
-        // missing date prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                        + VALID_DATE_BOB,
-                expectedMessage);
-
         // all prefixes missing
-        assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB + VALID_ADDRESS_BOB
-                        + VALID_ADDRESS_BOB,
+        assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB
+                        + VALID_ADDRESS_BOB + VALID_DATE_BOB,
                 expectedMessage);
     }
 

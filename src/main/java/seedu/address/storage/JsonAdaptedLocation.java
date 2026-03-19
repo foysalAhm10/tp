@@ -29,7 +29,7 @@ class JsonAdaptedLocation {
     private final String phone;
     private final String email;
     private final String address;
-    private final String visitDate;
+    private final List<String> visitDates = new ArrayList<>();
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -38,13 +38,15 @@ class JsonAdaptedLocation {
     @JsonCreator
     public JsonAdaptedLocation(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("visitDate") String visitDate,
+            @JsonProperty("visitDates") List<String> visitDates,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.visitDate = visitDate;
+        if (visitDates != null) {
+            this.visitDates.addAll(visitDates);
+        }
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -58,7 +60,9 @@ class JsonAdaptedLocation {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        visitDate = source.getVisitDate().toString();
+        visitDates.addAll(source.getVisitDates().stream()
+                .map(VisitDate::toString)
+                .collect(Collectors.toList()));
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -107,17 +111,16 @@ class JsonAdaptedLocation {
         }
         final Address modelAddress = new Address(address);
 
-        if (visitDate == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    VisitDate.class.getSimpleName()));
+        final Set<VisitDate> modelVisitDates = new HashSet<>();
+        for (String visitDate : visitDates) {
+            if (!VisitDate.isValidVisitDate(visitDate)) {
+                throw new IllegalValueException(VisitDate.MESSAGE_CONSTRAINTS);
+            }
+            modelVisitDates.add(new VisitDate(visitDate));
         }
-        if (!VisitDate.isValidVisitDate(visitDate)) {
-            throw new IllegalValueException(VisitDate.MESSAGE_CONSTRAINTS);
-        }
-        final VisitDate modelVisitDate = new VisitDate(visitDate);
 
         final Set<Tag> modelTags = new HashSet<>(locationTags);
-        return new Location(modelName, modelPhone, modelEmail, modelAddress, modelVisitDate, modelTags);
+        return new Location(modelName, modelPhone, modelEmail, modelAddress, modelVisitDates, modelTags);
     }
 
 }

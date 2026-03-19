@@ -205,4 +205,106 @@ public class EditCommandParserTest {
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
+
+    @Test
+    public void parse_tagAdd_success() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " t+/friend";
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToAdd("friend")
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_tagRemove_success() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " t-/friend";
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToRemove("friend")
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_tagAddAndRemove_success() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " t+/friend t-/enemy";
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToAdd("friend")
+                .withTagsToRemove("enemy")
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_sameTagAddAndRemove_success() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " t+/friend t-/friend";
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToAdd("friend")
+                .withTagsToRemove("friend")
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_overrideAndModifyTag_failure() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " t/friend t+/enemy";
+
+        assertParseFailure(parser, userInput, EditCommand.MESSAGE_CANNOT_OVERRIDE_AND_MODIFY_TAGS);
+    }
+
+    @Test
+    public void parse_dateAdd_success() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " d+/2026-02-10";
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withVisitDatesToAdd("2026-02-10")
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_dateRemove_success() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " d-/2026-02-10";
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withVisitDatesToRemove("2026-02-10")
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_overrideAndModifyDate_failure() {
+        Index targetIndex = INDEX_FIRST_LOCATION;
+        String userInput = targetIndex.getOneBased() + " d/2026-02-10 d+/2026-02-10";
+
+        assertParseFailure(parser, userInput, EditCommand.MESSAGE_CANNOT_OVERRIDE_AND_MODIFY_DATES);
+    }
 }

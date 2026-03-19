@@ -185,4 +185,131 @@ public class EditCommandTest {
         assertEquals(expected, editCommand.toString());
     }
 
+    /**
+     * Helper function to make edit tests for add/remove tags/dates easier.
+     */
+    private void assertEditSuccess(Index index, EditLocationDescriptor descriptor, Location editedLocation) {
+        Location locationToEdit = model.getFilteredLocationList().get(index.getZeroBased());
+        EditCommand editCommand = new EditCommand(index, descriptor);
+
+        String expectedMessage = String.format(
+                EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setLocation(locationToEdit, editedLocation);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_addTagUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit)
+                .withTags("friends", VALID_TAG_HUSBAND)
+                .build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToAdd(VALID_TAG_HUSBAND)
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
+
+    @Test
+    public void execute_removeTagUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit)
+                .withTags()
+                .build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToRemove("friends")
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
+
+    @Test
+    public void execute_addAndRemoveTagsUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_SECOND_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit)
+                .withTags("owesMoney", VALID_TAG_HUSBAND)
+                .build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToAdd(VALID_TAG_HUSBAND)
+                .withTagsToRemove("friends")
+                .build();
+
+        assertEditSuccess(INDEX_SECOND_LOCATION, descriptor, editedLocation);
+    }
+
+    @Test
+    public void execute_addExistingTagUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit).build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToAdd("friends")
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
+
+    @Test
+    public void execute_removeNonExistingTagUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit).build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToRemove(VALID_TAG_HUSBAND)
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
+
+    @Test
+    public void execute_addAndRemoveSameTagUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit)
+                .withTags()
+                .build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withTagsToAdd("friends")
+                .withTagsToRemove("friends")
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
+
+    @Test
+    public void execute_addDateUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit)
+                .withVisitDates("2026-01-07", "2026-01-10", "2026-02-10")
+                .build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withVisitDatesToAdd("2026-02-10")
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
+
+    @Test
+    public void execute_addAndRemoveSameDateUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit)
+                .withVisitDates("2026-01-07")
+                .build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withVisitDatesToAdd("2026-01-10")
+                .withVisitDatesToRemove("2026-01-10")
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
+
 }

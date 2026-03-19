@@ -94,7 +94,7 @@ public class LocationTest {
     public void toStringMethod() {
         String expected = Location.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
                 + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
-                + ", visitDate=" + ALICE.getVisitDate()
+                + ", visitDates=" + ALICE.getVisitDates()
                 + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }

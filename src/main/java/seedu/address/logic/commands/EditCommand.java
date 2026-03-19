@@ -3,10 +3,14 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE_ADD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE_REMOVE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_ADD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_REMOVE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_LOCATIONS;
 
 import java.util.Collections;
@@ -45,15 +49,24 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_DATE + "DATE]"
+            + "[" + PREFIX_DATE + "DATE]... "
             + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_DATE_ADD + "DATE]... "
+            + "[" + PREFIX_DATE_REMOVE + "DATE]... "
+            + "[" + PREFIX_TAG_ADD + "TAG]... "
+            + "[" + PREFIX_TAG_REMOVE + "TAG]...\n"
+            + "Note: t/ or d/ replaces all; t+/t-/ and d+/d-/ adds and removes (do not mix).\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + PREFIX_EMAIL + "alicepauline@gmail.com "
+            + PREFIX_DATE_ADD + "2026-01-01 "
+            + PREFIX_DATE_REMOVE + "2026-02-01";
 
     public static final String MESSAGE_EDIT_LOCATION_SUCCESS = "Edited Location: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_LOCATION = "This location already exists in the address book.";
+    public static final String MESSAGE_CANNOT_OVERRIDE_AND_MODIFY_TAGS = "Cannot combine t/ with t+/ or t-/";
+    public static final String MESSAGE_CANNOT_OVERRIDE_AND_MODIFY_DATES = "Cannot combine d/ with d+/ or d-/";
 
     private final Index index;
     private final EditLocationDescriptor editLocationDescriptor;
@@ -103,10 +116,28 @@ public class EditCommand extends Command {
         Phone updatedPhone = editLocationDescriptor.getPhone().orElse(locationToEdit.getPhone());
         Email updatedEmail = editLocationDescriptor.getEmail().orElse(locationToEdit.getEmail());
         Address updatedAddress = editLocationDescriptor.getAddress().orElse(locationToEdit.getAddress());
-        VisitDate updatedVisitDate = editLocationDescriptor.getVisitDate().orElse(locationToEdit.getVisitDate());
-        Set<Tag> updatedTags = editLocationDescriptor.getTags().orElse(locationToEdit.getTags());
 
-        return new Location(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedVisitDate, updatedTags);
+        Set<VisitDate> updatedVisitDates;
+
+        if (editLocationDescriptor.getVisitDates().isPresent()) {
+            updatedVisitDates = new HashSet<>(editLocationDescriptor.getVisitDates().get());
+        } else {
+            updatedVisitDates = new HashSet<>(locationToEdit.getVisitDates());
+            editLocationDescriptor.getVisitDatesToAdd().ifPresent(updatedVisitDates::addAll);
+            editLocationDescriptor.getVisitDatesToRemove().ifPresent(updatedVisitDates::removeAll);
+        }
+
+        Set<Tag> updatedTags;
+
+        if (editLocationDescriptor.getTags().isPresent()) {
+            updatedTags = new HashSet<>(editLocationDescriptor.getTags().get());
+        } else {
+            updatedTags = new HashSet<>(locationToEdit.getTags());
+            editLocationDescriptor.getTagsToAdd().ifPresent(updatedTags::addAll);
+            editLocationDescriptor.getTagsToRemove().ifPresent(updatedTags::removeAll);
+        }
+
+        return new Location(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedVisitDates, updatedTags);
     }
 
     @Override
@@ -142,8 +173,14 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private Address address;
-        private VisitDate visitDate;
+        private Set<VisitDate> visitDates;
         private Set<Tag> tags;
+
+        private Set<VisitDate> visitDatesToAdd;
+        private Set<VisitDate> visitDatesToRemove;
+
+        private Set<Tag> tagsToAdd;
+        private Set<Tag> tagsToRemove;
 
         public EditLocationDescriptor() {}
 
@@ -156,15 +193,23 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
-            setVisitDate(toCopy.visitDate);
+            setVisitDates(toCopy.visitDates);
+            setVisitDatesToAdd(toCopy.visitDatesToAdd);
+            setVisitDatesToRemove(toCopy.visitDatesToRemove);
             setTags(toCopy.tags);
+            setTagsToAdd(toCopy.tagsToAdd);
+            setTagsToRemove(toCopy.tagsToRemove);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, visitDate, tags);
+            return CollectionUtil.isAnyNonNull(
+                    name, phone, email, address, visitDates, tags,
+                    visitDatesToAdd, visitDatesToRemove,
+                    tagsToAdd, tagsToRemove
+            );
         }
 
         public void setName(Name name) {
@@ -199,12 +244,12 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
-        public void setVisitDate(VisitDate visitDate) {
-            this.visitDate = visitDate;
+        public void setVisitDates(Set<VisitDate> visitDates) {
+            this.visitDates = (visitDates != null) ? new HashSet<>(visitDates) : null;
         }
 
-        public Optional<VisitDate> getVisitDate() {
-            return Optional.ofNullable(visitDate);
+        public Optional<Set<VisitDate>> getVisitDates() {
+            return (visitDates != null) ? Optional.of(Collections.unmodifiableSet(visitDates)) : Optional.empty();
         }
 
         /**
@@ -215,6 +260,24 @@ public class EditCommand extends Command {
             this.tags = (tags != null) ? new HashSet<>(tags) : null;
         }
 
+        public void setVisitDatesToAdd(Set<VisitDate> visitDatesToAdd) {
+            this.visitDatesToAdd = (visitDatesToAdd != null) ? new HashSet<>(visitDatesToAdd) : null;
+        }
+
+        public Optional<Set<VisitDate>> getVisitDatesToAdd() {
+            return (visitDatesToAdd != null)
+                    ? Optional.of(Collections.unmodifiableSet(visitDatesToAdd)) : Optional.empty();
+        }
+
+        public void setVisitDatesToRemove(Set<VisitDate> visitDatesToRemove) {
+            this.visitDatesToRemove = (visitDatesToRemove != null) ? new HashSet<>(visitDatesToRemove) : null;
+        }
+
+        public Optional<Set<VisitDate>> getVisitDatesToRemove() {
+            return (visitDatesToRemove != null)
+                    ? Optional.of(Collections.unmodifiableSet(visitDatesToRemove)) : Optional.empty();
+        }
+
         /**
          * Returns an unmodifiable tag set, which throws {@code UnsupportedOperationException}
          * if modification is attempted.
@@ -222,6 +285,22 @@ public class EditCommand extends Command {
          */
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
+        }
+
+        public void setTagsToAdd(Set<Tag> tagsToAdd) {
+            this.tagsToAdd = (tagsToAdd != null) ? new HashSet<>(tagsToAdd) : null;
+        }
+
+        public Optional<Set<Tag>> getTagsToAdd() {
+            return (tagsToAdd != null) ? Optional.of(Collections.unmodifiableSet(tagsToAdd)) : Optional.empty();
+        }
+
+        public void setTagsToRemove(Set<Tag> tagsToRemove) {
+            this.tagsToRemove = (tagsToRemove != null) ? new HashSet<>(tagsToRemove) : null;
+        }
+
+        public Optional<Set<Tag>> getTagsToRemove() {
+            return (tagsToRemove != null) ? Optional.of(Collections.unmodifiableSet(tagsToRemove)) : Optional.empty();
         }
 
         @Override
@@ -240,8 +319,12 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditLocationDescriptor.phone)
                     && Objects.equals(email, otherEditLocationDescriptor.email)
                     && Objects.equals(address, otherEditLocationDescriptor.address)
-                    && Objects.equals(visitDate, otherEditLocationDescriptor.visitDate)
-                    && Objects.equals(tags, otherEditLocationDescriptor.tags);
+                    && Objects.equals(visitDates, otherEditLocationDescriptor.visitDates)
+                    && Objects.equals(visitDatesToAdd, otherEditLocationDescriptor.visitDatesToAdd)
+                    && Objects.equals(visitDatesToRemove, otherEditLocationDescriptor.visitDatesToRemove)
+                    && Objects.equals(tags, otherEditLocationDescriptor.tags)
+                    && Objects.equals(tagsToAdd, otherEditLocationDescriptor.tagsToAdd)
+                    && Objects.equals(tagsToRemove, otherEditLocationDescriptor.tagsToRemove);
         }
 
         @Override
@@ -251,8 +334,12 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
-                    .add("visitDate", visitDate)
+                    .add("visitDates", visitDates)
+                    .add("visitDatesToAdd", visitDatesToAdd)
+                    .add("visitDatesToRemove", visitDatesToRemove)
                     .add("tags", tags)
+                    .add("tagsToAdd", tagsToAdd)
+                    .add("tagsToRemove", tagsToRemove)
                     .toString();
         }
     }

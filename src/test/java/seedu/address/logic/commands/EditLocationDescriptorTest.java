@@ -65,13 +65,18 @@ public class EditLocationDescriptorTest {
     @Test
     public void toStringMethod() {
         EditLocationDescriptor editLocationDescriptor = new EditLocationDescriptor();
-        String expected = EditLocationDescriptor.class.getCanonicalName() + "{name="
-                + editLocationDescriptor.getName().orElse(null) + ", phone="
-                + editLocationDescriptor.getPhone().orElse(null) + ", email="
-                + editLocationDescriptor.getEmail().orElse(null) + ", address="
-                + editLocationDescriptor.getAddress().orElse(null) + ", visitDate="
-                + editLocationDescriptor.getVisitDate().orElse(null) + ", tags="
-                + editLocationDescriptor.getTags().orElse(null) + "}";
+        String expected = EditLocationDescriptor.class.getCanonicalName()
+                + "{name=" + editLocationDescriptor.getName().orElse(null)
+                + ", phone=" + editLocationDescriptor.getPhone().orElse(null)
+                + ", email=" + editLocationDescriptor.getEmail().orElse(null)
+                + ", address=" + editLocationDescriptor.getAddress().orElse(null)
+                + ", visitDates=" + editLocationDescriptor.getVisitDates().orElse(null)
+                + ", visitDatesToAdd=" + editLocationDescriptor.getVisitDatesToAdd().orElse(null)
+                + ", visitDatesToRemove=" + editLocationDescriptor.getVisitDatesToRemove().orElse(null)
+                + ", tags=" + editLocationDescriptor.getTags().orElse(null)
+                + ", tagsToAdd=" + editLocationDescriptor.getTagsToAdd().orElse(null)
+                + ", tagsToRemove=" + editLocationDescriptor.getTagsToRemove().orElse(null)
+                + "}";
         assertEquals(expected, editLocationDescriptor.toString());
     }
 }

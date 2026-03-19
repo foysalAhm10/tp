@@ -112,6 +112,18 @@ public class ParserUtil {
     }
 
     /**
+     * Parses {@code Collection<String> visitDates} into a {@code Set<VisitDate>}.
+     */
+    public static Set<VisitDate> parseVisitDates(Collection<String> visitDates) throws ParseException {
+        requireNonNull(visitDates);
+        final Set<VisitDate> visitDateSet = new HashSet<>();
+        for (String visitDate : visitDates) {
+            visitDateSet.add(parseVisitDate(visitDate));
+        }
+        return visitDateSet;
+    }
+
+    /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *

@@ -4,6 +4,6 @@
     "phone": "9482424",
     "email": "invalid@email!3e",
     "address": "4th street",
-    "visitDate": "2026-02-30"
+    "visitDates": ["2026-02-30"]
   } ]
 }

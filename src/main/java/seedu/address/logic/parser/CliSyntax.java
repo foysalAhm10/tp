@@ -13,4 +13,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_DATE = new Prefix("d/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
 
+    public static final Prefix PREFIX_TAG_ADD = new Prefix("t+/");
+    public static final Prefix PREFIX_TAG_REMOVE = new Prefix("t-/");
+    public static final Prefix PREFIX_DATE_ADD = new Prefix("d+/");
+    public static final Prefix PREFIX_DATE_REMOVE = new Prefix("d-/");
+
 }

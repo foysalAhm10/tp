@@ -23,19 +23,19 @@ public class Location {
 
     // Data fields
     private final Address address;
-    private final VisitDate visitDate;
+    private final Set<VisitDate> visitDates = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Location(Name name, Phone phone, Email email, Address address, VisitDate visitDate, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, visitDate, tags);
+    public Location(Name name, Phone phone, Email email, Address address, Set<VisitDate> visitDates, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, visitDates, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.visitDate = visitDate;
+        this.visitDates.addAll(visitDates);
         this.tags.addAll(tags);
     }
 
@@ -55,8 +55,12 @@ public class Location {
         return address;
     }
 
-    public VisitDate getVisitDate() {
-        return visitDate;
+    /**
+     * Returns an immutable visit date set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<VisitDate> getVisitDates() {
+        return Collections.unmodifiableSet(visitDates);
     }
 
     /**
@@ -100,14 +104,14 @@ public class Location {
                 && phone.equals(otherLocation.phone)
                 && email.equals(otherLocation.email)
                 && address.equals(otherLocation.address)
-                && visitDate.equals(otherLocation.visitDate)
+                && visitDates.equals(otherLocation.visitDates)
                 && tags.equals(otherLocation.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, visitDate, tags);
+        return Objects.hash(name, phone, email, address, visitDates, tags);
     }
 
     @Override
@@ -117,7 +121,7 @@ public class Location {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
-                .add("visitDate", visitDate)
+                .add("visitDates", visitDates)
                 .add("tags", tags)
                 .toString();
     }

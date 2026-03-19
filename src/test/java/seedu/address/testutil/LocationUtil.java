@@ -12,6 +12,7 @@ import java.util.Set;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand.EditLocationDescriptor;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -35,7 +36,9 @@ public class LocationUtil {
         sb.append(PREFIX_PHONE + location.getPhone().value + " ");
         sb.append(PREFIX_EMAIL + location.getEmail().value + " ");
         sb.append(PREFIX_ADDRESS + location.getAddress().value + " ");
-        sb.append(PREFIX_DATE + location.getVisitDate().toString() + " ");
+        location.getVisitDates().forEach(
+                visitDate -> sb.append(PREFIX_DATE).append(visitDate).append(" ")
+        );
         location.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
@@ -51,12 +54,19 @@ public class LocationUtil {
         descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
-        descriptor.getVisitDate()
-                .ifPresent(date -> sb.append(PREFIX_DATE).append(date.toString()).append(" "));
+        if (descriptor.getVisitDates().isPresent()) {
+            Set<VisitDate> visitDates = descriptor.getVisitDates().get();
+            if (visitDates.isEmpty()) {
+                sb.append(PREFIX_DATE).append(" ");
+            } else {
+                visitDates.forEach(d -> sb.append(PREFIX_DATE).append(d).append(" "));
+            }
+        }
+
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {
-                sb.append(PREFIX_TAG);
+                sb.append(PREFIX_TAG).append(" ");
             } else {
                 tags.forEach(s -> sb.append(PREFIX_TAG).append(s.tagName).append(" "));
             }
