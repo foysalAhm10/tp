@@ -22,8 +22,7 @@ import seedu.address.model.tag.Tag;
 public class SampleDataUtil {
     @SuppressWarnings("checkstyle:Indentation")
     public static Location[] getSampleLocations() {
-        return new Location[] {
-                new Location(
+        return new Location[]{new Location(
                         new Name("Alex Yeoh"),
                         Optional.of(new Phone("87438807")),
                         Optional.of(new Email("alexyeoh@example.com")),
@@ -31,8 +30,7 @@ public class SampleDataUtil {
                         Optional.of(new PostalCode("408615")),
                         Optional.of(new VisitDate("2026-03-12")),
                         getTagSet("friends")
-                ),
-                new Location(
+                ), new Location(
                         new Name("Bernice Yu"),
                         Optional.of(new Phone("99272758")),
                         Optional.of(new Email("berniceyu@example.com")),
@@ -40,8 +38,7 @@ public class SampleDataUtil {
                         Optional.of(new PostalCode("554530")),
                         Optional.of(new VisitDate("2026-03-18")),
                         getTagSet("colleagues", "friends")
-                ),
-                new Location(
+                ), new Location(
                         new Name("Charlotte Oliveiro"),
                         Optional.of(new Phone("93210283")),
                         Optional.of(new Email("charlotte@example.com")),
@@ -49,8 +46,7 @@ public class SampleDataUtil {
                         Optional.of(new PostalCode("560011")),
                         Optional.of(new VisitDate("2026-03-13")),
                         getTagSet("neighbours")
-                ),
-                new Location(
+                ), new Location(
                         new Name("David Li"),
                         Optional.of(new Phone("91031282")),
                         Optional.of(new Email("lidavid@example.com")),
@@ -58,8 +54,7 @@ public class SampleDataUtil {
                         Optional.of(new PostalCode("550436")),
                         Optional.of(new VisitDate("2026-03-21")),
                         getTagSet("family")
-                ),
-                new Location(
+                ), new Location(
                         new Name("Irfan Ibrahim"),
                         Optional.of(new Phone("92492021")),
                         Optional.of(new Email("irfan@example.com")),
@@ -67,8 +62,7 @@ public class SampleDataUtil {
                         Optional.of(new PostalCode("520047")),
                         Optional.of(new VisitDate("2026-03-05")),
                         getTagSet("classmates")
-                ),
-                new Location(
+                ), new Location(
                         new Name("Roy Balakrishnan"),
                         Optional.of(new Phone("92624417")),
                         Optional.of(new Email("royb@example.com")),
