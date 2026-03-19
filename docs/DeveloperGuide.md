@@ -273,7 +273,7 @@ The implementation involves three key components:
 ```
 User Input: "find Jo"
     ↓
-FindCommandParser → Creates FindCommand with predicate NameContainsKeywordsPredicate(["Jo"])
+FindCommandParser → Creates FindCommand with NameContainsKeywordsPredicate(["Jo"])
     ↓
 FindCommand.execute() → Calls Model.updateFilteredLocationList(predicate)
     ↓
