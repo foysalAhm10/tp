@@ -1,7 +1,7 @@
 package seedu.address.testutil;
 
-import java.util.Optional;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.model.location.Address;
@@ -55,6 +55,7 @@ public class LocationBuilder {
         phone = locationToCopy.getPhone();
         email = locationToCopy.getEmail();
         address = locationToCopy.getAddress();
+        postalCode = locationToCopy.getPostalCode();
         visitDate = locationToCopy.getVisitDate();
         tags = new HashSet<>(locationToCopy.getTags());
     }
@@ -68,9 +69,9 @@ public class LocationBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Location} that we are building.
+     * Parses the {@code tags} into a {@code Set<Tag>} and sets it to the {@code Location} that we are building.
      */
-    public LocationBuilder withTags(String ... tags) {
+    public LocationBuilder withTags(String... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
@@ -118,5 +119,4 @@ public class LocationBuilder {
     public Location build() {
         return new Location(name, phone, email, address, postalCode, visitDate, tags);
     }
-
 }
