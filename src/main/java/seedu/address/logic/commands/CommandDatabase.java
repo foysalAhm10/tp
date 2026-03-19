@@ -27,7 +27,7 @@ public class CommandDatabase {
                 FindCommand.COMMAND_WORD,
                 HelpCommand.COMMAND_WORD,
                 ListCommand.COMMAND_WORD,
-                PlanCommand.COMMAND_WORD;
+                PlanCommand.COMMAND_WORD,
                 ShortcutCommand.COMMAND_WORD);
     }
 
