@@ -15,8 +15,14 @@ public class HelpCommandTest {
 
     @Test
     public void execute_overview_success() {
-        CommandResult expectedCommandResult = new CommandResult(commandDatabase.getHelpOverview(), null, true, false);
+        CommandResult expectedCommandResult = new CommandResult(commandDatabase.getHelpOverview());
         assertCommandSuccess(new HelpCommand(), model, expectedCommandResult, expectedModel);
+    }
+
+    @Test
+    public void execute_link_success() {
+        CommandResult expectedCommandResult = new CommandResult(HelpCommand.SHOWING_HELP_MESSAGE, null, true, false);
+        assertCommandSuccess(new HelpCommand(true), model, expectedCommandResult, expectedModel);
     }
 
     @Test

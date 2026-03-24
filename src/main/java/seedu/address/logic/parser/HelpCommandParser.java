@@ -25,6 +25,10 @@ public class HelpCommandParser implements Parser<HelpCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
 
+        if (HelpCommand.LINK_FLAG.equals(tokens[0])) {
+            return new HelpCommand(true);
+        }
+
         String commandWord = tokens[0].toLowerCase();
         if (!commandDatabase.isKnownCommand(commandWord)) {
             throw new ParseException(String.format(HelpCommand.MESSAGE_UNKNOWN_HELP_TOPIC, tokens[0]));

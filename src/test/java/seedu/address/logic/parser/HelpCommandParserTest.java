@@ -26,6 +26,11 @@ public class HelpCommandParserTest {
     }
 
     @Test
+    public void parse_linkFlag_returnsLinkHelpCommand() {
+        assertParseSuccess(parser, HelpCommand.LINK_FLAG, new HelpCommand(true));
+    }
+
+    @Test
     public void parse_unknownCommandWord_throwsParseException() {
         assertParseFailure(parser, "unknown", String.format(HelpCommand.MESSAGE_UNKNOWN_HELP_TOPIC, "unknown"));
     }

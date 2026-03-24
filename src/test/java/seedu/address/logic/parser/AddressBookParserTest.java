@@ -114,6 +114,11 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_helpLink_success() throws Exception {
+        assertEquals(new HelpCommand(true), parser.parseCommand("help " + HelpCommand.LINK_FLAG));
+    }
+
+    @Test
     public void parseCommand_helpMalformed_throwsParseException() {
         assertThrows(ParseException.class,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
