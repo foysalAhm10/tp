@@ -2,49 +2,53 @@ package seedu.address.logic.commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
  * Represents the collection of command keywords available to the user
- * and maps potential user shortcuts to the raw commands
+ * and stores help metadata for built-in commands.
  */
 public class CommandDatabase {
 
-    private final List<String> commands;
+    private static final String OVERVIEW_INTRO = "Available commands:";
+    private static final String OVERVIEW_FOOTER = "Use `help <command>` for detailed guidance.";
+
+    private final Map<String, CommandInfo> commandRegistry;
 
     /**
-     * Initializes the database with the command keywords
+     * Initializes the database with the command keywords.
      */
     public CommandDatabase() {
-        // can later be substituted as loading a command txt file
-        commands = List.of(
-                AddCommand.COMMAND_WORD,
-                ClearCommand.COMMAND_WORD,
-                DeleteCommand.COMMAND_WORD,
-                EditCommand.COMMAND_WORD,
-                ExitCommand.COMMAND_WORD,
-                FindCommand.COMMAND_WORD,
-                HelpCommand.COMMAND_WORD,
-                ListCommand.COMMAND_WORD,
-                PlanCommand.COMMAND_WORD,
-                ShortcutCommand.COMMAND_WORD);
+        commandRegistry = new LinkedHashMap<>();
+        register(AddCommand.COMMAND_WORD, "Add a new location to AddressMe.", AddCommand.MESSAGE_USAGE);
+        register(ClearCommand.COMMAND_WORD, "Remove all saved locations.", ClearCommand.MESSAGE_USAGE);
+        register(DeleteCommand.COMMAND_WORD, "Delete one or more locations by index.", DeleteCommand.MESSAGE_USAGE);
+        register(EditCommand.COMMAND_WORD, "Edit an existing location.", EditCommand.MESSAGE_USAGE);
+        register(ExitCommand.COMMAND_WORD, "Exit the application.", ExitCommand.MESSAGE_USAGE);
+        register(FindCommand.COMMAND_WORD, "Find locations matching your search criteria.", FindCommand.MESSAGE_USAGE);
+        register(HelpCommand.COMMAND_WORD, "Show help overview or details for a command.",
+                HelpCommand.MESSAGE_USAGE);
+        register(ListCommand.COMMAND_WORD, "List all saved locations.", ListCommand.MESSAGE_USAGE);
+        register(PlanCommand.COMMAND_WORD, "Show or clear the planner for a specific date.", PlanCommand.MESSAGE_USAGE);
+        register(ShortcutCommand.COMMAND_WORD, "Manage command shortcuts.", ShortcutCommand.MESSAGE_USAGE);
     }
 
     /**
-     * Autocompletes the given input into an existing command
-     * @param prefix
-     * @return
+     * Autocompletes the given input into an existing command.
      */
     public String completePrefix(String prefix) {
         List<String> matches = new ArrayList<>();
 
-        for (String cmd : commands) {
+        for (String cmd : commandRegistry.keySet()) {
             if (cmd.startsWith(prefix.toLowerCase())) {
                 matches.add(cmd);
             }
         }
-        //
+
         if (matches.isEmpty()) {
             return prefix;
         }
@@ -60,20 +64,55 @@ public class CommandDatabase {
      * Returns true if {@code commandWord} is a known command word.
      */
     public boolean isKnownCommand(String commandWord) {
-        return commands.contains(commandWord.toLowerCase());
+        return commandRegistry.containsKey(commandWord.toLowerCase());
     }
 
     /**
      * Returns the known command words.
      */
     public Set<String> getCommandWords() {
-        return Set.copyOf(commands);
+        return Set.copyOf(commandRegistry.keySet());
     }
 
     /**
-     * Finds the longest common prefix of a list of words
-     * @param words a list of at least 2 Strings
-     * @return the longest common prefix of all the Strings passed in
+     * Returns the help overview text for all built-in commands.
+     */
+    public String getHelpOverview() {
+        StringBuilder builder = new StringBuilder(OVERVIEW_INTRO);
+        commandRegistry.values().forEach(commandInfo -> builder.append("\n")
+                .append(commandInfo.commandWord())
+                .append(": ")
+                .append(commandInfo.summary()));
+        builder.append("\n\n").append(OVERVIEW_FOOTER);
+        return builder.toString();
+    }
+
+    /**
+     * Returns detailed help text for the given command word, if known.
+     */
+    public Optional<String> getDetailedHelp(String commandWord) {
+        if (commandWord == null) {
+            return Optional.empty();
+        }
+
+        CommandInfo commandInfo = commandRegistry.get(commandWord.toLowerCase());
+        if (commandInfo == null) {
+            return Optional.empty();
+        }
+
+        // return Optional.of(commandInfo.summary() + "\n\n" + commandInfo.usage());
+         return Optional.of(commandInfo.usage());
+    }
+
+    private void register(String commandWord, String summary, String usage) {
+        commandRegistry.put(commandWord, new CommandInfo(commandWord, summary, usage));
+    }
+
+    /**
+     * Finds the longest common prefix of a list of words.
+     *
+     * @param words a list of at least 2 strings
+     * @return the longest common prefix of all the strings passed in
      */
     private String longestCommonPrefix(List<String> words) {
         String min = Collections.min(words);
@@ -87,4 +126,6 @@ public class CommandDatabase {
 
         return min.substring(0, i);
     }
+
+    private record CommandInfo(String commandWord, String summary, String usage) { }
 }
