@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.AddCommand;
+// import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditLocationDescriptor;
+// import seedu.address.logic.commands.EditCommand;
+// import seedu.address.logic.commands.EditCommand.EditLocationDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -28,11 +28,11 @@ import seedu.address.logic.commands.PlanCommand;
 import seedu.address.logic.commands.ShortcutCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.location.CombinedLocationPredicate;
-import seedu.address.model.location.Location;
+// import seedu.address.model.location.Location;
 import seedu.address.model.location.NameContainsKeywordsPredicate;
-import seedu.address.testutil.EditLocationDescriptorBuilder;
-import seedu.address.testutil.LocationBuilder;
-import seedu.address.testutil.LocationUtil;
+// import seedu.address.testutil.EditLocationDescriptorBuilder;
+// import seedu.address.testutil.LocationBuilder;
+// import seedu.address.testutil.LocationUtil;
 
 public class AddressBookParserTest {
 
@@ -98,13 +98,10 @@ public class AddressBookParserTest {
         assertTrue(parser.parseCommand(PlanCommand.COMMAND_WORD + " 2/3/12") instanceof PlanCommand);
     }
 
-    /*
     @Test
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
-        assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
     }
-     */
 
     @Test
     public void parseCommand_helpOverview_success() throws Exception {
@@ -118,8 +115,9 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_helpMalformed_throwsParseException() {
-        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE),
-                () -> parser.parseCommand("help add extra"));
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
+                -> parser.parseCommand("help add extra"));
     }
 
     @Test

@@ -101,7 +101,7 @@ public class CommandDatabase {
         }
 
         // return Optional.of(commandInfo.summary() + "\n\n" + commandInfo.usage());
-         return Optional.of(commandInfo.usage());
+        return Optional.of(commandInfo.usage());
     }
 
     private void register(String commandWord, String summary, String usage) {
