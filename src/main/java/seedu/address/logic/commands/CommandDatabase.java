@@ -37,6 +37,7 @@ public class CommandDatabase {
      * @return
      */
     public String completePrefix(String prefix) {
+        assert (prefix != null);
         List<String> matches = new ArrayList<>();
 
         for (String cmd : commands) {
