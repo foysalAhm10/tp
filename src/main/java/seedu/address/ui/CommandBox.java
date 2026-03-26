@@ -32,20 +32,12 @@ public class CommandBox extends UiPart<Region> {
      */
     public CommandBox(CommandExecutor commandExecutor, CliHistory history) {
         super(FXML);
+        assert (commandExecutor != null && history != null);
         this.commandExecutor = commandExecutor;
         this.commandHistory = history;
-        // calls #setStyleToDefault() whenever there is a change to the text of the command box.
-        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
 
-        // adds listener to handle Tab keypress for autocomplete
-        commandTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.TAB) {
-                commandTextField.setText(commandBase.completePrefix(commandTextField.getText()));
-                commandTextField.end();
-
-                event.consume();
-            }
-        });
+        setCommandBoxListener();
+        setTabListener();
     }
 
     /**
@@ -100,6 +92,27 @@ public class CommandBox extends UiPart<Region> {
         }
 
         styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Calls #setStyleToDefault() whenever there is a change to the text of the command box.
+     */
+    private void setCommandBoxListener() {
+        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+    }
+
+    /**
+     * Adds listener to handle Tab keypress for autocomplete
+     */
+    private void setTabListener() {
+        commandTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                commandTextField.setText(commandBase.completePrefix(commandTextField.getText()));
+                commandTextField.end();
+
+                event.consume();
+            }
+        });
     }
 
     /**

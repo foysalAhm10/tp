@@ -34,7 +34,10 @@ public class PlannerListPanel extends UiPart<Region> {
     }
 
     public void setPlannerHeader(String date) {
-        if (date == null || date.isEmpty()) {
+        if (date == null) {
+            logger.warning("Invalid DateParser usage. Displaying default Planner header.");
+            plannerHeader.setText("Start planning...");
+        } else if (date.isEmpty()) {
             plannerHeader.setText("Start planning...");
         } else {
             plannerHeader.setText(date);

@@ -21,6 +21,7 @@ public class CliHistory {
      * @param input user command entered to be stored in history
      */
     public void addInput(String input) {
+        assert (input != null);
         history.add(input);
         indexPointer = -1;
     }

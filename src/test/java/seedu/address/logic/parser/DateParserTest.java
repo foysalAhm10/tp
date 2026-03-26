@@ -1,4 +1,3 @@
-/*
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -104,6 +103,15 @@ public class DateParserTest {
         assertEquals(today, DateParser.parse(dashInputFull));
     }
 
+    @Test
+    void testTodayFormat() throws IllegalValueException {
+        LocalDate today = LocalDate.now();
+
+        assertEquals(today, DateParser.parse("today"));
+        assertEquals(today, DateParser.parse("Today"));
+        assertEquals(today, DateParser.parse("toDAY"));
+    }
+
     // ---------- Days of Week tests ----------
     @Test
     void testDayShortForm_everyDayOfWeek() throws IllegalValueException {
@@ -173,4 +181,3 @@ public class DateParserTest {
     }
 
 }
-*/

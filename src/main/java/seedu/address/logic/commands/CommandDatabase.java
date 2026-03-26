@@ -41,6 +41,7 @@ public class CommandDatabase {
      * Autocompletes the given input into an existing command.
      */
     public String completePrefix(String prefix) {
+        assert (prefix != null);
         List<String> matches = new ArrayList<>();
 
         for (String cmd : commandRegistry.keySet()) {

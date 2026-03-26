@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
@@ -19,23 +20,23 @@ public class DateParser {
             + "yyyy-MM-dd, yyyy/MM/dd, d-M-yyyy, d/M/yyyy,\n"
             + "d-M-yy, d/M/yy, d-M, d/M, day of the week (e.g. Thu or Thursday).";
 
-    private static final List<DateTimeFormatter> DATE_FORMATTERS = List.of(
-            DateTimeFormatter.ofPattern("yyyy-MM-dd"),
-            DateTimeFormatter.ofPattern("yyyy/MM/dd"),
-            DateTimeFormatter.ofPattern("yyyy-M-d"),
-            DateTimeFormatter.ofPattern("d-M-yyyy"),
-            DateTimeFormatter.ofPattern("yyyy/M/d"),
-            DateTimeFormatter.ofPattern("d/M/yyyy"),
-            DateTimeFormatter.ofPattern("d/M/yy"),
-            DateTimeFormatter.ofPattern("d-M-yy")
-    );
+    private static final DateTimeFormatter DATE_FORMATTERS = new DateTimeFormatterBuilder()
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy-M-d"))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M-yyyy"))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy/M/d"))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/yyyy"))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/yy"))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M-yy"))
+            .toFormatter();
 
-    private static final List<DateTimeFormatter> MONTH_DAY_FORMATTERS = List.of(
-            DateTimeFormatter.ofPattern("dd-MM"),
-            DateTimeFormatter.ofPattern("dd/MM"),
-            DateTimeFormatter.ofPattern("d/M"),
-            DateTimeFormatter.ofPattern("d-M")
-    );
+    private static final DateTimeFormatter MONTH_DAY_FORMATTERS = new DateTimeFormatterBuilder()
+            .appendOptional(DateTimeFormatter.ofPattern("dd-MM"))
+            .appendOptional(DateTimeFormatter.ofPattern("dd/MM"))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M"))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M"))
+            .toFormatter();
 
     private static final List<DateTimeFormatter> DAY_OF_WEEK_FORMATTER = List.of(
             DateTimeFormatter.ofPattern("EEE", Locale.ENGLISH),
@@ -50,36 +51,35 @@ public class DateParser {
      * @throws IllegalValueException if the string cannot fit into any DateTimeFormat
      */
     public static LocalDate parse(String input) throws IllegalValueException {
-        input = input.trim();
+        input = input.trim().toLowerCase();
 
         if (input.isEmpty()) {
             throw new IllegalValueException(MESSAGE_WRONG_DATE_FORMAT);
         }
 
-        // try to match date formatter with year
-        for (DateTimeFormatter formatter : DATE_FORMATTERS) {
-            try {
-                return LocalDate.parse(input, formatter);
-            } catch (DateTimeParseException e) {
-                //ignore since exception is thrown below
-            }
+        // Tries to match input with date formatter with year
+        try {
+            return LocalDate.parse(input, DATE_FORMATTERS);
+        } catch (DateTimeParseException e) {
+            // doesn't match but ignore since exception is thrown below
         }
 
-        // try to match date formatter with no year
         LocalDate today = LocalDate.now();
-        for (DateTimeFormatter formatter : MONTH_DAY_FORMATTERS) {
-            try {
-                MonthDay parsed = MonthDay.parse(input, formatter);
-                return parseMonthDay(today, parsed);
-            } catch (DateTimeParseException e) {
-                //ignore since exception is thrown below
-            }
+        if (input.equals("today")) {
+            return today;
+        }
+
+        // Tries to match input with date formatter with no year (just day/month)
+        try {
+            MonthDay parsed = MonthDay.parse(input, MONTH_DAY_FORMATTERS);
+            return parseMonthDay(today, parsed);
+        } catch (DateTimeParseException e) {
+            //ignore since exception is thrown below
         }
 
         // capitalize just the first letter (Assuming it is day of the week)
         input = formatDayOfWeek(input);
-
-        // try to match day of the week e.g. Tue, Thur, Friday
+        // Tries to match input with date formatter with day of the week e.g. Tue, Thur, Friday
         for (DateTimeFormatter formatter : DAY_OF_WEEK_FORMATTER) {
             try {
                 DayOfWeek day = DayOfWeek.from(formatter.parse(input));
@@ -137,6 +137,7 @@ public class DateParser {
      * Converts a string to all lowercase except the first character, which is capitalized
      */
     private static String formatDayOfWeek(String input) {
+        assert (input != null);
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 }
