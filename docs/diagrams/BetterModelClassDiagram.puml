@@ -14,9 +14,10 @@ UniqueLocationList -right-> Location
 
 Location -up-> "*" Tag
 
-Location *--> Name
-Location *--> Phone
-Location *--> Email
-Location *--> Address
+Location *--> "1" Name
+Location *--> "0..1" Phone
+Location *--> "0..1" Email
+Location *--> "0..1" Address
+Location *--> "0..1" PostalCode
 Location *--> "*" VisitDate
 @enduml
