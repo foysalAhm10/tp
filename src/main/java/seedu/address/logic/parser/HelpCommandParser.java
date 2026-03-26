@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import seedu.address.logic.commands.CommandDatabase;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -10,8 +9,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new {@code HelpCommand} object.
  */
 public class HelpCommandParser implements Parser<HelpCommand> {
-
-    private final CommandDatabase commandDatabase = new CommandDatabase();
 
     @Override
     public HelpCommand parse(String args) throws ParseException {
@@ -30,10 +27,6 @@ public class HelpCommandParser implements Parser<HelpCommand> {
         }
 
         String commandWord = tokens[0].toLowerCase();
-        if (!commandDatabase.isKnownCommand(commandWord)) {
-            throw new ParseException(String.format(HelpCommand.MESSAGE_UNKNOWN_HELP_TOPIC, tokens[0]));
-        }
-
         return new HelpCommand(commandWord);
     }
 }

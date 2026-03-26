@@ -31,8 +31,8 @@ public class HelpCommandParserTest {
     }
 
     @Test
-    public void parse_unknownCommandWord_throwsParseException() {
-        assertParseFailure(parser, "unknown", String.format(HelpCommand.MESSAGE_UNKNOWN_HELP_TOPIC, "unknown"));
+    public void parse_unknownCommandWord_returnsContextualHelpCommand() {
+        assertParseSuccess(parser, "unknown", new HelpCommand("unknown"));
     }
 
     @Test
