@@ -23,7 +23,7 @@ AddressMe is a **desktop app for managing destinations, optimized for use via a 
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will show the local help overview.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -58,8 +58,8 @@ AddressMe is a **desktop app for managing destinations, optimized for use via a 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `list`, `exit` and `clear`) will be ignored.<br>
+  e.g. if the command specifies `list 123`, it will be interpreted as `list`.
 
 * Date fields support the formats: `yyyy/M/d`, `d/M/yyyy`, `d/M/yy` as well as hyphenated variants.
 E.g. 2 Jan 2026 can be typed as `2026/01/02`, `2/1/26`, `2026-1-02`, `02-1-2026`.
@@ -73,11 +73,22 @@ E.g. If today was Tuesday, `Tue` would be today, `Wednesday` would be tomorrow, 
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Shows the local help overview, command-specific help, or opens the online User Guide.
 
-![help message](images/helpMessage.png)
+Format:
+```
+help
+help COMMAND_WORD
+help -ug
+```
 
-Format: `help`
+* `help` displays a summary of all supported commands in the CLI.
+* `help COMMAND_WORD` displays detailed local guidance for that command.
+* `help -ug` opens the help window for the online User Guide.
+* `COMMAND_WORD` must be an existing built-in command word.
+
+Examples:
+* `help add` shows the local guidance for the `add` command.
 
 
 ### Adding a location: `add`
@@ -267,5 +278,5 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com d+/2026-02-01`
 **Find** | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]… [d/DATE]…`<br> e.g., `find n/Cafe t/Halal d/2026-01-01`
 **List** | `list`
-**Help** | `help`
+**Help** | `help` / `help COMMAND_WORD` / `help -ug`<br> e.g., `help`, `help add`, `help -ug`
 **Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`<br> e.g., `shortcut set a add`, `shortcut remove a`, `shortcut list`

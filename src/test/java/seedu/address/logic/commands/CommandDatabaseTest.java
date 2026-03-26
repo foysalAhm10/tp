@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,5 +69,21 @@ public class CommandDatabaseTest {
     @Test
     void testCaseSensitivity() {
         assertEquals("add", commandDatabase.completePrefix("Add"));
+    }
+
+    @Test
+    void getHelpOverview_containsCommandsAndFooter() {
+        String helpOverview = commandDatabase.getHelpOverview();
+
+        assertTrue(helpOverview.startsWith("Available commands:"));
+        commandDatabase.getCommandWords().forEach(commandWord ->
+                assertTrue(helpOverview.contains(commandWord + ":")));
+        assertTrue(helpOverview.contains("help COMMAND_WORD"));
+    }
+
+    @Test
+    void getDetailedHelp_knownCommand_returnsUsage() {
+        assertEquals(AddCommand.MESSAGE_USAGE,
+                commandDatabase.getDetailedHelp(AddCommand.COMMAND_WORD).orElseThrow());
     }
 }

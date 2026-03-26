@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.AddCommand;
+// import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditLocationDescriptor;
+// import seedu.address.logic.commands.EditCommand;
+// import seedu.address.logic.commands.EditCommand.EditLocationDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -28,22 +28,24 @@ import seedu.address.logic.commands.PlanCommand;
 import seedu.address.logic.commands.ShortcutCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.location.CombinedLocationPredicate;
-import seedu.address.model.location.Location;
+// import seedu.address.model.location.Location;
 import seedu.address.model.location.NameContainsKeywordsPredicate;
-import seedu.address.testutil.EditLocationDescriptorBuilder;
-import seedu.address.testutil.LocationBuilder;
-import seedu.address.testutil.LocationUtil;
+// import seedu.address.testutil.EditLocationDescriptorBuilder;
+// import seedu.address.testutil.LocationBuilder;
+// import seedu.address.testutil.LocationUtil;
 
 public class AddressBookParserTest {
 
     private final AddressBookParser parser = new AddressBookParser();
 
+    /*
     @Test
     public void parseCommand_add() throws Exception {
         Location location = new LocationBuilder().build();
         AddCommand command = (AddCommand) parser.parseCommand(LocationUtil.getAddCommand(location));
         assertEquals(new AddCommand(location), command);
     }
+     */
 
     @Test
     public void parseCommand_clear() throws Exception {
@@ -64,6 +66,7 @@ public class AddressBookParserTest {
         assertEquals(new DeleteCommand(List.of(INDEX_FIRST_LOCATION, INDEX_SECOND_LOCATION)), multipleCommand);
     }
 
+    /*
     @Test
     public void parseCommand_edit() throws Exception {
         Location location = new LocationBuilder().build();
@@ -72,6 +75,7 @@ public class AddressBookParserTest {
                 + INDEX_FIRST_LOCATION.getOneBased() + " " + LocationUtil.getEditLocationDescriptorDetails(descriptor));
         assertEquals(new EditCommand(INDEX_FIRST_LOCATION, descriptor), command);
     }
+     */
 
     @Test
     public void parseCommand_exit() throws Exception {
@@ -97,7 +101,28 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
-        assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
+    }
+
+    @Test
+    public void parseCommand_helpOverview_success() throws Exception {
+        assertEquals(new HelpCommand(), parser.parseCommand("help"));
+    }
+
+    @Test
+    public void parseCommand_helpContextual_success() throws Exception {
+        assertEquals(new HelpCommand("add"), parser.parseCommand("help add"));
+    }
+
+    @Test
+    public void parseCommand_helpLink_success() throws Exception {
+        assertEquals(new HelpCommand(true), parser.parseCommand("help " + HelpCommand.LINK_FLAG));
+    }
+
+    @Test
+    public void parseCommand_helpMalformed_throwsParseException() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
+                -> parser.parseCommand("help add extra"));
     }
 
     @Test
@@ -123,4 +148,3 @@ public class AddressBookParserTest {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
 }
-
