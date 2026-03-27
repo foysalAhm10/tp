@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.Theme;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -47,9 +48,19 @@ public interface Logic {
     GuiSettings getGuiSettings();
 
     /**
+     * Returns the user prefs' theme.
+     */
+    Theme getTheme();
+
+    /**
      * Set the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
+
+    /**
+     * Sets the user prefs' theme.
+     */
+    void setTheme(Theme theme);
 
     /**
      * Returns the user command history

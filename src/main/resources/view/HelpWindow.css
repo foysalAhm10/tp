@@ -1,19 +1,35 @@
-#copyButton, #helpMessage {
-    -fx-text-fill: white;
-}
-
 #copyButton {
-    -fx-background-color: dimgray;
+    -fx-font-family: "Consolas", "Segoe UI", monospace;
+    -fx-font-size: 11pt;
+    -fx-min-width: 96;
 }
 
-#copyButton:hover {
-    -fx-background-color: gray;
-}
-
-#copyButton:armed {
-    -fx-background-color: darkgray;
+#helpMessage {
+    -fx-font-family: "Consolas", "Segoe UI Semibold", monospace;
+    -fx-font-size: 12pt;
+    -fx-wrap-text: true;
 }
 
 #helpMessageContainer {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-alignment: center-left;
+    -fx-spacing: 8;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 0, 0;
+    -fx-border-width: 0;
+}
+
+#helpMessageContainer.help-light {
+    -fx-background-color: #bae6fd, linear-gradient(to right, #e0f2fe, #f0fdfa);
+}
+
+#helpMessageContainer.help-light #helpMessage {
+    -fx-text-fill: #0f172a;
+}
+
+#helpMessageContainer.help-dark {
+    -fx-background-color: #003356, linear-gradient(to right, #001523, #002137);
+}
+
+#helpMessageContainer.help-dark #helpMessage {
+    -fx-text-fill: #faddaf;
 }

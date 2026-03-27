@@ -26,6 +26,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.PlanCommand;
 import seedu.address.logic.commands.ShortcutCommand;
+import seedu.address.logic.commands.ThemeCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 //import seedu.address.model.location.Location;
 import seedu.address.model.location.predicates.CombinedLocationPredicate;
@@ -139,6 +140,12 @@ public class AddressBookParserTest {
     public void parseCommand_shortcut() throws Exception {
         assertEquals(new ShortcutCommand(ShortcutCommand.Action.LIST, null, null),
                 parser.parseCommand(ShortcutCommand.COMMAND_WORD + " list"));
+    }
+
+    @Test
+    public void parseCommand_theme() throws Exception {
+        assertEquals(new ThemeCommand(seedu.address.commons.core.Theme.DARK),
+                parser.parseCommand(ThemeCommand.COMMAND_WORD + " dark"));
     }
 
     @Test
