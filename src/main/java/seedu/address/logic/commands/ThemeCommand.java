@@ -29,6 +29,7 @@ public class ThemeCommand extends Command {
      */
     public ThemeCommand(Theme theme) {
         requireNonNull(theme);
+        assert theme == Theme.LIGHT || theme == Theme.DARK;
         this.theme = theme;
     }
 
