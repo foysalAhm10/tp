@@ -65,6 +65,11 @@ public class ShortcutCommand extends Command {
     }
 
     @Override
+    public boolean isStateMutating() {
+        return action == Action.SET || action == Action.REMOVE;
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

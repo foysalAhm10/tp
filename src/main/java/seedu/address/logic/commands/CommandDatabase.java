@@ -35,8 +35,11 @@ public class CommandDatabase {
         register(ListCommand.COMMAND_WORD, "List all saved locations.", ListCommand.MESSAGE_USAGE);
         register(NoteCommand.COMMAND_WORD, "Record a note in AddressMe.", NoteCommand.MESSAGE_USAGE);
         register(PlanCommand.COMMAND_WORD, "Show or clear the planner for a specific date.", PlanCommand.MESSAGE_USAGE);
+        register(RedoCommand.COMMAND_WORD, "Reapply the most recent undone change.",
+                RedoCommand.MESSAGE_USAGE);
         register(ShortcutCommand.COMMAND_WORD, "Manage command shortcuts.", ShortcutCommand.MESSAGE_USAGE);
         register(ThemeCommand.COMMAND_WORD, "Switch between light and dark themes.", ThemeCommand.MESSAGE_USAGE);
+        register(UndoCommand.COMMAND_WORD, "Revert the most recent change.", UndoCommand.MESSAGE_USAGE);
     }
 
     /**

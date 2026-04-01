@@ -56,7 +56,21 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         String expandedCommandText = shortcutManager.expandShortcut(commandText);
         Command command = addressBookParser.parseCommand(expandedCommandText);
-        commandResult = command.execute(model);
+        if (command.isStateMutating()) {
+            model.saveState();
+        }
+
+        try {
+            commandResult = command.execute(model);
+            if (command.isStateMutating()) {
+                model.commitState();
+            }
+        } catch (CommandException | RuntimeException e) {
+            if (command.isStateMutating()) {
+                model.discardState();
+            }
+            throw e;
+        }
 
         try {
             storage.saveAddressBook(model.getAddressBook());

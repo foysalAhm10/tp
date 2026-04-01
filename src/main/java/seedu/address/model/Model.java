@@ -85,6 +85,45 @@ public interface Model {
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);
 
+    /**
+     * Saves the current undoable application state as a pending snapshot before a command runs.
+     */
+    default void saveState() {}
+
+    /**
+     * Commits the pending undo snapshot if the command changed undoable application state.
+     */
+    default void commitState() {}
+
+    /**
+     * Discards any pending undo snapshot because the command failed.
+     */
+    default void discardState() {}
+
+    /**
+     * Returns true if the previous undoable state can be restored.
+     */
+    default boolean canUndoState() {
+        return false;
+    }
+
+    /**
+     * Restores the previous undoable state.
+     */
+    default void undoState() {}
+
+    /**
+     * Returns true if the most recently undone state can be reapplied.
+     */
+    default boolean canRedoState() {
+        return false;
+    }
+
+    /**
+     * Reapplies the most recently undone state.
+     */
+    default void redoState() {}
+
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 

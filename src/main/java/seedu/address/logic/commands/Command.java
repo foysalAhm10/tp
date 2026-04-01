@@ -17,4 +17,11 @@ public abstract class Command {
      */
     public abstract CommandResult execute(Model model) throws CommandException;
 
+    /**
+     * Returns true if this command changes undoable application state and should participate in undo/redo history.
+     */
+    public boolean isStateMutating() {
+        return false;
+    }
+
 }

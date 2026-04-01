@@ -107,6 +107,11 @@ public class EditCommand extends Command {
         return new CommandResult(String.format(MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation)));
     }
 
+    @Override
+    public boolean isStateMutating() {
+        return true;
+    }
+
     /**
      * Creates and returns a {@code Location} with the details of {@code locationToEdit}
      * edited with {@code editLocationDescriptor}.

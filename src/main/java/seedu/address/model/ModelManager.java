@@ -27,6 +27,9 @@ public class ModelManager implements Model {
     private final ShortcutMap shortcutMap;
     private final FilteredList<Location> filteredLocations;
     private final FilteredList<Location> plannerLocations;
+    private AppState undoState;
+    private AppState redoState;
+    private AppState pendingState;
 
     /**
      * Initializes a ModelManager with the given addressBook, userPrefs and shortcuts.
@@ -127,6 +130,55 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void saveState() {
+        pendingState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+    }
+
+    @Override
+    public void commitState() {
+        if (pendingState == null) {
+            return;
+        }
+
+        AppState currentState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+        if (!pendingState.equals(currentState)) {
+            undoState = pendingState;
+            redoState = null;
+        }
+
+        pendingState = null;
+    }
+
+    @Override
+    public void discardState() {
+        pendingState = null;
+    }
+
+    @Override
+    public boolean canUndoState() {
+        return undoState != null;
+    }
+
+    @Override
+    public void undoState() {
+        redoState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+        restoreState(undoState);
+        undoState = null;
+    }
+
+    @Override
+    public boolean canRedoState() {
+        return redoState != null;
+    }
+
+    @Override
+    public void redoState() {
+        undoState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+        restoreState(redoState);
+        redoState = null;
+    }
+
+    @Override
     public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
     }
@@ -206,6 +258,18 @@ public class ModelManager implements Model {
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && shortcutMap.equals(otherModelManager.shortcutMap)
                 && filteredLocations.equals(otherModelManager.filteredLocations);
+    }
+
+    private void restoreState(AppState state) {
+        setAddressBook(state.addressBook());
+        shortcutMap.resetData(state.shortcutMap());
+        userPrefs.setTheme(state.theme());
+    }
+
+    private record AppState(AddressBook addressBook, ShortcutMap shortcutMap, Theme theme) {
+        private static AppState from(ReadOnlyAddressBook addressBook, ReadOnlyShortcutMap shortcutMap, Theme theme) {
+            return new AppState(new AddressBook(addressBook), new ShortcutMap(shortcutMap), theme);
+        }
     }
 
 }
