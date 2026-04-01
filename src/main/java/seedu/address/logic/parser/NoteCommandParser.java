@@ -4,6 +4,8 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
+import java.util.stream.Stream;
+
 import seedu.address.logic.commands.NoteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.location.Name;
@@ -31,7 +33,7 @@ public class NoteCommandParser implements Parser<NoteCommand> {
     }
 
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return java.util.stream.Stream.of(prefixes)
+        return Stream.of(prefixes)
                 .allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }
