@@ -112,7 +112,7 @@ public class DateParser {
         if (date == null) {
             return "";
         }
-        return date.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy"));
+        return date.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy", Locale.ENGLISH));
     }
 
     /**
