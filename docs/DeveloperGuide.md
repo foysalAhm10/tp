@@ -422,7 +422,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | new user                   | view a help message explaining the keyboard commands                          | quickly learn how to use the app                                            |
 | `* *`    | tech-savvy user            | use a single keyboard command to search for all "sightseeing" spots           | find my next destination fast and easily                                    |
 | `* *`    | cautious solo traveller    | store emergency contacts (embassy, hospital, local police)                    | access them quickly in urgent situations                                    |
-| `* *`    | user                       | change the application's colour (light/dark mode) and contrast                | read the content comfortably                                                |
+| `* *`    | user                       | change the application's colour (light/dark mode)                             | read the content comfortably                                                |
 | `* *`    | user                       | pin important locations                                                       | quickly see my highest-priority entries                                     |
 | `* *`    | user with poor eyesight    | change my font size                                                           | see the content clearly                                                     |
 | `* *`    | user                       | edit phone numbers or addresses easily                                        | outdated contact details do not mislead me                                  |
@@ -439,6 +439,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user                       | attach notes to the places I’ve been                                          | remember if I enjoyed the place, or never want to go back                   |
 | `*`      | user                       | see my destinations in a schedule view                                        | easily visualize my itinerary                                               |
 | `*`      | user                       | attach and record my expenses                                                 | manage my budget                                                            |
+| `*`      | dark mode user             | use the app in dark mode                                                      | keep it consistent with the rest of my setup                                |
 | `*`      | parent                     | organize my trip together with different users (family, friends, tour agency) | allow them to contribute ideas/routes for my trip                           |
 
 *{More to be added}*

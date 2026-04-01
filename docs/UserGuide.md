@@ -84,12 +84,13 @@ help -ug
 
 * `help` displays a summary of all supported commands in the CLI.
 * `help COMMAND_WORD` displays detailed local guidance for that command.
-* `help -ug` opens the help window for the online User Guide.
 * `COMMAND_WORD` must be an existing built-in command word.
+* `help -ug` opens the help window for the online User Guide (see below).
+
+![Help window](images/helpMessage.png)
 
 Examples:
 * `help add` shows the local guidance for the `add` command.
-
 
 ### Adding a location: `add`
 
@@ -133,6 +134,20 @@ Examples:
 * `shortcut set e edit`    Creates alias 'e' for 'edit'
 * `shortcut list`          Lists all defined shortcuts
 * `shortcut remove e`      Removes alias 'e'
+
+### Changing the application theme : `theme`
+
+Switches the application between light mode and dark mode.
+
+Format:
+```
+theme light
+theme dark
+```
+
+* Use `theme light` to switch to light mode.
+* Use `theme dark` to switch to dark mode.
+* The selected theme is saved and restored the next time the app starts.
 
 ### Editing a location : `edit`
 
@@ -270,13 +285,14 @@ E.g. `A` autocompletes into `add`, while `e` autocompletes to `e`, since both `e
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [d/DATE]… [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 d/2026-01-01 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX [MORE_INDEXES]...`<br> e.g., `delete 3` or `delete 1 2 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com d+/2026-02-01`
-**Find** | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]… [d/DATE]…`<br> e.g., `find n/Cafe t/Halal d/2026-01-01`
-**List** | `list`
-**Help** | `help` / `help COMMAND_WORD` / `help -ug`<br> e.g., `help`, `help add`, `help -ug`
-**Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`<br> e.g., `shortcut set a add`, `shortcut remove a`, `shortcut list`
+| Action       | Format, Examples                                                                                                                                                                             |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**      | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [d/DATE]… [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 d/2026-01-01 t/friend t/colleague` |
+| **Clear**    | `clear`                                                                                                                                                                                      |
+| **Delete**   | `delete INDEX [MORE_INDEXES]...`<br> e.g., `delete 3` or `delete 1 2 3`                                                                                                                      |
+| **Edit**     | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com d+/2026-02-01` |
+| **Find**     | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]… [d/DATE]…`<br> e.g., `find n/Cafe t/Halal d/2026-01-01`                                                    |
+| **List**     | `list`                                                                                                                                                                                       |
+| **Help**     | `help` / `help COMMAND_WORD` / `help -ug`<br> e.g., `help`, `help add`, `help -ug`                                                                                                           |
+| **Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`<br> e.g., `shortcut set a add`, `shortcut remove a`, `shortcut list`                                           |
+| **Theme**    | `theme light` / `theme dark`                                                                                                                                                                 |

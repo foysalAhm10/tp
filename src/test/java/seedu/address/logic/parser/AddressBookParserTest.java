@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 // import seedu.address.logic.commands.AddCommand;
+import seedu.address.commons.core.Theme;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 // import seedu.address.logic.commands.EditCommand;
@@ -26,6 +27,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.PlanCommand;
 import seedu.address.logic.commands.ShortcutCommand;
+import seedu.address.logic.commands.ThemeCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 //import seedu.address.model.location.Location;
 import seedu.address.model.location.predicates.CombinedLocationPredicate;
@@ -139,6 +141,12 @@ public class AddressBookParserTest {
     public void parseCommand_shortcut() throws Exception {
         assertEquals(new ShortcutCommand(ShortcutCommand.Action.LIST, null, null),
                 parser.parseCommand(ShortcutCommand.COMMAND_WORD + " list"));
+    }
+
+    @Test
+    public void parseCommand_theme() throws Exception {
+        assertEquals(new ThemeCommand(Theme.DARK),
+                parser.parseCommand(ThemeCommand.COMMAND_WORD + " dark"));
     }
 
     @Test

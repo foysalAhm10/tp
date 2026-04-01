@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.Theme;
 
 /**
  * Represents User's preferences.
@@ -17,6 +18,7 @@ import seedu.address.commons.core.GuiSettings;
 public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
+    private Theme theme = Theme.LIGHT;
     private Path addressBookFilePath = Paths.get("data" , "addressbook.json");
     private Map<String, String> shortcutMap = new LinkedHashMap<>();
 
@@ -39,6 +41,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void resetData(ReadOnlyUserPrefs newUserPrefs) {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
+        setTheme(newUserPrefs.getTheme());
         setAddressBookFilePath(newUserPrefs.getAddressBookFilePath());
         setShortcutMap(newUserPrefs.getShortcutMap());
     }
@@ -50,6 +53,16 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void setGuiSettings(GuiSettings guiSettings) {
         requireNonNull(guiSettings);
         this.guiSettings = guiSettings;
+    }
+
+    @Override
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        requireNonNull(theme);
+        this.theme = theme;
     }
 
     public Path getAddressBookFilePath() {
@@ -106,19 +119,21 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
         UserPrefs otherUserPrefs = (UserPrefs) other;
         return guiSettings.equals(otherUserPrefs.guiSettings)
+                && theme == otherUserPrefs.theme
                 && addressBookFilePath.equals(otherUserPrefs.addressBookFilePath)
                 && shortcutMap.equals(otherUserPrefs.shortcutMap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(guiSettings, addressBookFilePath, shortcutMap);
+        return Objects.hash(guiSettings, theme, addressBookFilePath, shortcutMap);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + guiSettings);
+        sb.append("\nTheme : " + theme);
         sb.append("\nLocal data file location : " + addressBookFilePath);
         sb.append("\nShortcuts : " + shortcutMap);
         return sb.toString();

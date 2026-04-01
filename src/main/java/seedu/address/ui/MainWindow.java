@@ -4,14 +4,18 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import seedu.address.MainApp;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.Theme;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -24,9 +28,11 @@ import seedu.address.logic.parser.exceptions.ParseException;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    private static final String EXTENSIONS_STYLESHEET = "view/Extensions.css";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
+    private Theme currentTheme;
     private Stage primaryStage;
     private Logic logic;
 
@@ -41,6 +47,12 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private MenuItem helpMenuItem;
+
+    @FXML
+    private RadioMenuItem lightThemeMenuItem;
+
+    @FXML
+    private RadioMenuItem darkThemeMenuItem;
 
     @FXML
     private StackPane locationListPanelPlaceholder;
@@ -70,6 +82,7 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
+        applyTheme(logic.getTheme());
     }
 
     public Stage getPrimaryStage() {
@@ -158,6 +171,16 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.show();
     }
 
+    @FXML
+    private void handleLightTheme() {
+        switchTheme(Theme.LIGHT);
+    }
+
+    @FXML
+    private void handleDarkTheme() {
+        switchTheme(Theme.DARK);
+    }
+
     /**
      * Closes the application.
      */
@@ -174,6 +197,35 @@ public class MainWindow extends UiPart<Stage> {
         return locationListPanel;
     }
 
+    private void switchTheme(Theme theme) {
+        if (currentTheme == theme) {
+            syncThemeMenuSelection(theme);
+            return;
+        }
+
+        logic.setTheme(theme);
+        applyTheme(theme);
+    }
+
+    private void applyTheme(Theme theme) {
+        Scene scene = primaryStage.getScene();
+        scene.getStylesheets().setAll(
+                getStylesheet(theme.getMainStylesheetPath()),
+                getStylesheet(EXTENSIONS_STYLESHEET));
+        currentTheme = theme;
+        helpWindow.setTheme(theme);
+        syncThemeMenuSelection(theme);
+    }
+
+    private void syncThemeMenuSelection(Theme theme) {
+        lightThemeMenuItem.setSelected(theme == Theme.LIGHT);
+        darkThemeMenuItem.setSelected(theme == Theme.DARK);
+    }
+
+    private String getStylesheet(String stylesheetPath) {
+        return MainApp.class.getResource("/" + stylesheetPath).toExternalForm();
+    }
+
     /**
      * Executes the command and returns the result.
      *
@@ -187,6 +239,10 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.getFeedbackToPlanner() != null) {
                 plannerListPanel.setPlannerHeader(commandResult.getFeedbackToPlanner());
+            }
+
+            if (currentTheme != logic.getTheme()) {
+                applyTheme(logic.getTheme());
             }
 
             if (commandResult.isShowHelp()) {

@@ -3,12 +3,16 @@ package seedu.address.ui;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import seedu.address.MainApp;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.Theme;
 
 /**
  * Controller for a help page
@@ -27,6 +31,9 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private Label helpMessage;
 
+    @FXML
+    private HBox helpMessageContainer;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -42,6 +49,18 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow() {
         this(new Stage());
+    }
+
+    /**
+     * Applies the given theme to the help window.
+     */
+    public void setTheme(Theme theme) {
+        Scene scene = getRoot().getScene();
+        scene.getStylesheets().setAll(
+                getStylesheet(theme.getMainStylesheetPath()),
+                getStylesheet("view/HelpWindow.css"));
+        helpMessageContainer.getStyleClass().removeAll("help-light", "help-dark");
+        helpMessageContainer.getStyleClass().add(theme == Theme.DARK ? "help-dark" : "help-light");
     }
 
     /**
@@ -98,5 +117,9 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
+    }
+
+    private String getStylesheet(String stylesheetPath) {
+        return MainApp.class.getResource("/" + stylesheetPath).toExternalForm();
     }
 }

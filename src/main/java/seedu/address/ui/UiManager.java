@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import seedu.address.MainApp;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.Theme;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 
@@ -22,7 +23,7 @@ public class UiManager implements Ui {
     private static final Logger logger = LogsCenter.getLogger(UiManager.class);
     private static final String ICON_APPLICATION = "/images/address_me.png";
 
-    private Logic logic;
+    private final Logic logic;
     private MainWindow mainWindow;
 
     /**
@@ -62,10 +63,10 @@ public class UiManager implements Ui {
      * Shows an alert dialog on {@code owner} with the given parameters.
      * This method only returns after the user has closed the alert dialog.
      */
-    private static void showAlertDialogAndWait(Stage owner, AlertType type, String title, String headerText,
-                                               String contentText) {
+    private void showAlertDialogAndWait(Stage owner, AlertType type, String title, String headerText,
+                                        String contentText) {
         final Alert alert = new Alert(type);
-        alert.getDialogPane().getStylesheets().add("view/AddressTheme.css");
+        alert.getDialogPane().getStylesheets().add(getThemeStylesheet(logic.getTheme()));
         alert.initOwner(owner);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
@@ -83,6 +84,10 @@ public class UiManager implements Ui {
         showAlertDialogAndWait(Alert.AlertType.ERROR, title, e.getMessage(), e.toString());
         Platform.exit();
         System.exit(1);
+    }
+
+    private String getThemeStylesheet(Theme theme) {
+        return MainApp.class.getResource("/" + theme.getMainStylesheetPath()).toExternalForm();
     }
 
 }
