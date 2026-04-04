@@ -49,7 +49,7 @@ class JsonSerializableAddressBook {
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         locations.addAll(source.getLocationList().stream().map(JsonAdaptedLocation::new).collect(Collectors.toList()));
-        source.getNoteMap().forEach((date, note) -> notes.put(date.toString(), note.toString()));
+        source.getNoteMap().forEach((date, note) -> notes.put(date.toDataString(), note.toString()));
     }
 
     /**
