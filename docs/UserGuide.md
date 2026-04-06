@@ -421,7 +421,7 @@ Format: `clear`
 
 ### `exit` - Exiting the program
 
-Closes AddressMe. Your data and shortcuts are saved automatically.
+Closes AddressMe. Data that was changed by previous commands is already saved automatically; no manual save command is required.
 
 Format: `exit`
 
