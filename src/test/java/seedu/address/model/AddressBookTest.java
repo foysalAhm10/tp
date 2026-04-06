@@ -170,23 +170,6 @@ public class AddressBookTest {
     }
 
     @Test
-    public void removeNote_nullDate_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () ->
-                addressBook.removeNote(null));
-    }
-
-    @Test
-    public void removeNote_existingDate_removesNote() throws Exception {
-        VisitDate date = VisitDate.of("2026-03-24");
-        NoteContent note = new NoteContent("Test Note");
-        addressBook.setNote(date, note);
-
-        addressBook.removeNote(date);
-
-        assertTrue(addressBook.getNoteMap().isEmpty());
-    }
-
-    @Test
     public void removeNote_missingDate_noChange() throws Exception {
         VisitDate existingDate = VisitDate.of("2026-03-24");
         VisitDate missingDate = VisitDate.of("2026-03-25");

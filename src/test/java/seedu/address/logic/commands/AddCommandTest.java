@@ -226,6 +226,16 @@ public class AddCommandTest {
         public ObservableValue<NoteContent> getPlannerNoteProperty() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public boolean hasNote(VisitDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeNote(VisitDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
