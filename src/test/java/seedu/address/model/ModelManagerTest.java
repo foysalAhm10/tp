@@ -321,6 +321,27 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void updatePlannerNote_multipleNotes_mergesNotes() throws Exception {
+        ModelManager separateModel = new ModelManager();
+        VisitDate everyDay = VisitDate.of("everyday");
+        VisitDate oneTime = VisitDate.of("2026-03-24");
+        NoteContent genericNote = new NoteContent("Generic note");
+        NoteContent specificNote = new NoteContent("Specific note");
+
+        // Use LinkedHashMap in AddressBook to ensure order
+        separateModel.setNote(everyDay, genericNote);
+        separateModel.setNote(oneTime, specificNote);
+
+        separateModel.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
+
+        String value = separateModel.getPlannerNoteProperty().getValue().toString();
+        String[] mergedNotes = value.split("\n\n");
+        assertEquals(2, mergedNotes.length);
+        assertTrue(java.util.Arrays.asList(mergedNotes).contains("Generic note"));
+        assertTrue(java.util.Arrays.asList(mergedNotes).contains("Specific note"));
+    }
+
+    @Test
     public void hasNote_noteExists_returnsTrue() throws Exception {
         VisitDate date = VisitDate.of("2026-03-24");
         NoteContent note = new NoteContent("Involves lots of walking. Bring extra water bottles.");
