@@ -147,6 +147,7 @@ public class FindCommandParser implements Parser<FindCommand> {
                 || prefix.equals(PREFIX_PHONE.getPrefix())
                 || prefix.equals(PREFIX_EMAIL.getPrefix())
                 || prefix.equals(PREFIX_ADDRESS.getPrefix())
+                || prefix.equals(PREFIX_POSTAL_CODE.getPrefix())
                 || prefix.equals(PREFIX_TAG.getPrefix())
                 || prefix.equals(PREFIX_DATE.getPrefix());
     }
