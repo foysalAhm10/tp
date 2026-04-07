@@ -1,6 +1,6 @@
 ---
 layout: page
-title: User Guide
+title: AddressMe User Guide
 ---
 
 ---
@@ -27,11 +27,14 @@ It offers a **minimalist, easy-to-learn experience** designed for digital nomads
 <h3 style="font-weight: bold;">If so, AddressMe is built for you!</h3>
 
 ---
-
+<div style="page-break-after: always;"></div>
+<h2>Table of Contents</h2>
 * Table of Contents
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
 ## 1. Quick Start
 
 ---
@@ -39,12 +42,12 @@ It offers a **minimalist, easy-to-learn experience** designed for digital nomads
 
 1. Ensure you have Java `17` or above installed on your machine.<br>
    You can do this by opening the Command Prompt app (for Windows users), or Terminal (for Mac/Linux users) and entering "`java -version`".<br>
-1. Download the latest version of `addressbook.jar` from the GitHub releases page [here](https://github.com/AY2526S2-CS2103T-W14-3/tp/releases).
+1. Download the latest version of `AddressMe.jar` from the GitHub releases page [here](https://github.com/AY2526S2-CS2103T-W14-3/tp/releases).
 2. Place the AddressMe.jar file in a folder - this becomes your AddressMe home folder.
 3. While in your home folder, right-click and select "Open in Terminal"
    ![ug_quickstart_nav_help.png](images/ug_quickstart_nav_help.png)
 4. Enter the following command into the terminal:
-   `java -jar addressbook.jar`
+   `java -jar AddressMe.jar`
 5. That's it! AddressMe launches with sample data, and you can plan your trip immediately.
 
 <div markdown="block" class="alert alert-warning">
@@ -54,6 +57,7 @@ It offers a **minimalist, easy-to-learn experience** designed for digital nomads
 Ensure you have the exact Java JDK version [here](https://se-education.org/guides/tutorials/javaInstallationMac.html) to avoid compatibility issues.
 
 </div>
+<div style="page-break-after: always;"></div>
 
 ### Interface Overview
 ![ug_interface_overview.png](images/ug_interface_overview.png)
@@ -66,6 +70,7 @@ AddressMe has four main UI zones:
 | **Result Panel**  | Displays confirmation messages, search results, and errors encountered.  |
 | **Location List** | Shows all your saved locations, updated in real time after each command. |
 | **Planner Panel** | View destinations on a specific date (using the **plan** command).       |
+<div style="page-break-after: always;"></div>
 
 ## 2. Starting to use Commands
 
@@ -86,6 +91,7 @@ A valid **add** command is shown below.
 | **t/TAG...**             | The ellipsis means you can submit more than one of these parameters.<br><br>e.g. "_t/_**_workplace_**_" OR "t/_**_workplace_** _t/_**_networking_**_"_                |
 | **Any order**            | Parameters can be entered in any order unless specified otherwise.<br><br>e.g. "_t/_**_workplace_** _n/_**_Nomad Hub_**_" OR "n/_**_Nomad Hub_** _t/_**_workplace_**" |
 | **Single-word commands** | Some commands take no extra parameters, like **help**, **list**, **exit**, **clear**.                                                                                 |
+<div style="page-break-after: always;"></div>
 
 ### Date Formats
 
@@ -103,9 +109,10 @@ AddressMe even accepts a large range of date inputs so you can type dates flexib
 
 - With **day** and **month** (no **year**): AddressMe picks the next occurrence of that date.
 
-| **DD/MM** | **DD-MM** |
-|-----------|-----------|
-| **D/M**   | **D-M**   |
+| **With slashes** | **With hyphens** |
+|------------------|------------------|
+| **DD/MM**        | **DD-MM**        |
+| **D/M**          | **D-M**          |
 
 - With **day of the week** (case-insensitive): AddressMe picks the upcoming date of that weekday.
 
@@ -159,6 +166,7 @@ Closes the application.
 When you're comfortable with sending commands, you're ready to dive deeper into each [feature](#3-features---full-reference)!
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## 3. Features - Full Reference
 
@@ -179,8 +187,8 @@ help -ug
 * `help COMMAND_WORD` displays detailed local guidance for that command.<br>
 `COMMAND_WORD` must be an existing built-in command word.
 
-Example:<br>
-`help add` shows the specific usage for the `add` command.
+**Examples:**
+* `help add` shows the specific usage for the `add` command.
 
 * `help -ug` opens the help window for the link to the online User Guide (see below).
 
@@ -189,6 +197,7 @@ Example:<br>
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 If you minimise the Help window and run help again, the minimised window will not reappear automatically. Restore it manually from your taskbar.
 </div>
+<div style="page-break-after: always;"></div>
 
 ### `add` - Adding a location
 
@@ -215,7 +224,7 @@ Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DA
 **t/**: Tag for categorisation (e.g. halal, coworking, pharmacy). Repeat for multiple tags.
 </div>
 
-Examples:<br>
+**Examples:**
 - `add n/Nomad Hub p/9876-5432 e/hello@nomadhub.com a/12 Tanjong Pagar d/every day t/coworking`<br>
 - `add n/Al-Azhar Restaurant p/+65 63910060 e/contact@alazhar.sg a/18 Arab St t/halal t/dinner d/Friday`
 
@@ -255,7 +264,7 @@ Format: `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS]
 
 </div>
 
-Examples:
+**Examples:**
 * `find Restaurant` returns all locations with "Restaurant" in the name.
 * `find n/Hanjin p/9123` returns locations with "Hanjin" in the name AND "9123" in the phone number.
 * `find c/123456` returns locations with postal codes containing `123456`.
@@ -272,7 +281,7 @@ Updates one or more fields of a saved location.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`
 
-* Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location list. The index **must be a positive integer** 1, 2, 3, ...
+* Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location list. The index **must be a positive number** 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 
@@ -290,10 +299,10 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/
 
 </div>
 
-Examples:
-*  `edit 1 p/91234567 e/contact@sundowncafe.com` Edits the phone number and email address of the 1st location to be `91234567` and `contact@sundowncafe.com` respectively.
-*  `edit 2 n/Happy Bistro t/ d+/2026-01-01` Edits the name of the 2nd location to be `Happy Bistro`, clears all existing tags, and adds a visit date of `2026-01-01`.
-*  `edit 1 d-/2025-12-25` Removes the visit date `2025-12-25` from the 1st location.
+**Examples:**
+*  `edit 1 p/91234567 e/contact@sundowncafe.com` <br>Edits the phone number and email address of the 1st location to be `91234567` and `contact@sundowncafe.com` respectively.
+*  `edit 2 n/Happy Bistro t/ d+/2026-01-01`<br>Edits the name of the 2nd location to be `Happy Bistro`, clears all existing tags, and adds a visit date of `2026-01-01`.
+*  `edit 1 d-/2025-12-25`<br>Removes the visit date `2025-12-25` from the 1st location.
 
 ### `delete` - Deleting a location
 
@@ -308,7 +317,7 @@ Deleted anything by accident? Try the `undo` command listed [here](#undo---rever
 
 </div>
 
-Examples:
+**Examples:**
 * `list` followed by `delete 2`<br>Deletes the 2nd location in the current list.
 * `find Sentosa` followed by `delete 1`<br>Finds locations matching 'Sentosa', then deletes the 1st result from filtered list.
 * `list` followed by `delete 1 3 5`<br>Deletes the 1st, 3rd, and 5th locations in a single command.
@@ -322,7 +331,7 @@ Format: `plan [DATE]`
 * Used with a date: Displays all the locations with the matching dates for easy cross-referencing.
 * Used without a date: clears the Planner Panel
 
-Examples:
+**Examples:**
 * `plan 12/3/26`<br>Shows all locations planned for 12 March 2026.
 * `plan Friday`<br>Shows locations planned for the upcoming Friday.
 * `plan`<br>Clears the planner page.
@@ -339,7 +348,7 @@ Records a date-bound note that will be persisted in future milestones. Currently
 
 Format: `note n/NOTE d/DATE` (DATE required)
 
-Examples:
+**Examples:**
 * `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24`
 
 ### `note d-` - Deleting a note
@@ -348,7 +357,7 @@ Deletes a note by date.
 
 Format: note d-/DATE
 
-Example:
+**Example:**
 * `note d-/2026-03-24`
 
 ### `undo` - Reverting the last change
@@ -358,11 +367,14 @@ Reverts the most recent successful undoable change.
 Format: `undo`
 
 * `undo` currently supports only one level of history.
-* Successful `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` commands are undoable.
-* Commands that do not change undoable state, such as `list`, `find` and `plan`, do not affect undo history.
 * If there is nothing to undo, AddressMe shows an error message.
 
-Examples:
+| **Undo-able**                                                                                         | **Does not Affect**                |
+|-------------------------------------------------------------------------------------------------------|------------------------------------|
+| Successful `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` commands    | `list`, `find` and `plan` commands |
+
+
+**Examples:**
 * `delete 3` followed by `undo` restores the deleted location.
 * `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24` followed by `undo` removes the note again.
 * `shortcut set a add` followed by `undo` removes the shortcut again.
@@ -374,10 +386,10 @@ Reapplies the most recent undone change.
 Format: `redo`
 
 * `redo` is available after a successful `undo` until another successful undoable command happens.
-* A new successful `add`, `edit`, `delete`, `clear`, `shortcut set` or `shortcut remove` command clears the redo state.
+* A new successful undoable command clears the redo state.
 * If there is nothing to redo, AddressMe shows an error message.
 
-Examples:
+**Examples:**
 * `add n/McDonalds` followed by `undo` and `redo` adds the same location back.
 * `delete 1` followed by `undo` and `redo` deletes the same location.
 
@@ -397,7 +409,7 @@ shortcut list
 * You cannot reuse an existing command word as an alias (e.g. you cannot set `add` as an alias for `edit`).
 * `COMMAND_WORD` must be a default command word.
 
-Examples:
+**Examples:**
 * `shortcut set a add` <br>Now typing `a n/...` behaves exactly like `add n/..`.
 * `shortcut list`      <br>Displays all current shortcuts.
 * `shortcut remove a`  <br>Removes alias 'a'.
@@ -405,6 +417,9 @@ Examples:
 ### `theme` - Customize your application
 
 Switches the application between light and dark modes.
+
+![ug_theme_light.png](images/ug_theme_light.png)
+![ug_theme_dark.png](images/ug_theme_dark.png)
 
 Format: `theme THEME_NAME`
 
@@ -446,7 +461,7 @@ Format: `exit`
 | **Undo**        | `undo`                                                                                                                                    | `undo`                                                                    |
 | **Redo**        | `redo`                                                                                                                                    | `redo`                                                                    |
 | **Help**        | `help` / `help COMMAND_WORD` / `help -ug`                                                                                                 | `help`, `help add`, `help -ug`                                            |
-
+<div style="page-break-after: always;"></div>
 
 ## 5. CLI Power Features
 
@@ -457,7 +472,7 @@ All commands you type during a session are stored. While clicked into the comman
 - Press the `UP` arrow to scroll back through previous commands.
 - Press the `DOWN` arrow to move forward in history.
 
-Example: After entering `list` and `find Cafe` into the CLI, pressing `UP` recalls `find Cafe`. Pressing `UP` again recalls `list`.
+**Example:** After entering `list` and `find Cafe` into the CLI, pressing `UP` recalls `find Cafe`. Pressing `UP` again recalls `list`.
 
 This makes repeating your most-used commands extremely fast.
 
@@ -467,12 +482,13 @@ Press `Tab` while typing a command to autocomplete it.
 - Autocomplete is case-insensitive.
 - If multiple commands match (e.g. e matches both `edit` and `exit`), AddressMe fills to the longest common starting letters.
 
-Examples:
+**Examples:**
 - `a` + `[Tab]` → `add`
 
 - `e` + `[Tab]` → `e` (ambiguous: edit / exit)
 
 - `ex` + `[Tab]` → `exit`
+<div style="page-break-after: always;"></div>
 
 ## 6. Data Management
 
@@ -519,6 +535,7 @@ Install AddressMe on the new device, run it once to generate the data folder, th
 **Q:** Will my shortcuts and themes persist after I close AddressMe?
 
 **A:** Yes. Your shortcuts are saved in shortcut.json in the data folder, and your theme is saved in preferences.json, all of which will be restored the next time you launch the app.
+<div style="page-break-after: always;"></div>
 
 ### Known Issues
 
