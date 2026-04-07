@@ -127,7 +127,7 @@ The `Model` component,
 * stores the planner locations as a separate filtered list based on the selected date.
 * stores a `UserPrefs` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` object.
 * stores a `ShortcutMap` object that represents the user-defined shortcuts. This is exposed to the outside as a `ReadOnlyShortcutMap` object.
-* supports notes associated with `VisitDate`s for the planner.
+* manages note data used by the planner through `NoteContent`.
 * does not depend on any of the other three components, as the `Model` represents domain entities that should make sense on their own.
 
 

@@ -57,7 +57,7 @@ Location *--> "0..1" PostalCode
 Location *--> "*" Tag
 Location *--> "*" VisitDate
 
-VisitDate --> "0..1" NoteContent
+ModelManager --> "*" NoteContent
 
 Location -[hidden]up--> I
 UniqueLocationList -[hidden]right-> I
