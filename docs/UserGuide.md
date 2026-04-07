@@ -410,9 +410,9 @@ shortcut list
 * `COMMAND_WORD` must be a default command word.
 
 **Examples:**
-* `shortcut set a add` <br>Now typing `a n/...` behaves exactly like `add n/..`.
-* `shortcut list`      <br>Displays all current shortcuts.
-* `shortcut remove a`  <br>Removes alias 'a'.
+* `shortcut set a add`: Now typing `a n/...` behaves exactly like `add n/..`.
+* `shortcut list`: Displays all current shortcuts.
+* `shortcut remove a`: Removes alias 'a'.
 
 ### `theme` - Customize your application
 
@@ -499,7 +499,8 @@ Press `Tab` while typing a command to autocomplete it.
 
 Your data is saved to disk automatically after every command that changes it. You do not need to save manually.
 
-Data is stored at: `[home folder]/data/addressbook.json`
+Location data is stored at: `[home folder]/data/addressbook.json`
+Shortcuts are stored at: `[home folder]/data/shortcut.json`
 
 ### Editing the data file directly
 
@@ -517,7 +518,7 @@ Values outside acceptable ranges may cause unexpected behaviour.
 
 ### Transferring Data to Another Device
 
-Install AddressMe on the new device, run it once to generate the data folder, then replace the empty addressbook.json with your existing data file from the old device.
+Install AddressMe on the new device, run it once to generate the data folder, exit the application, then replace any .json files with your existing data files from the old device.
 
 
 
@@ -530,10 +531,6 @@ Install AddressMe on the new device, run it once to generate the data folder, th
 **Q:** How do I move my data to a new laptop?
 
 **A:** Install AddressMe on the new device, run it once, then copy all the .json files (found in the folder labelled "data") from the old device into the new device's data folder, replacing the files that were created.
-
-**Q:** Can I have the same location listed multiple times?
-
-**A:** Yes. There is no deduplication. You may want to use tags or visit dates to distinguish between records instead of creating duplicates.
 
 **Q:** Will my shortcuts and themes persist after I close AddressMe?
 
