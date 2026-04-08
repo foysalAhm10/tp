@@ -316,8 +316,8 @@ Format:
   list. The index **must be a positive number** 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input. 
-* Using empty fields would clear the values if possible. 
-(Works for phone, email, postal code and address)
+* To clear a field, provide the prefix without a value (e.g. `p/` to clear phone). 
+  * This applies to single-value fields such as phone, email, postal code and address.
 
 **Tag and Date Editing Modes**
 
