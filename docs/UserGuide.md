@@ -344,6 +344,7 @@ Format: `delete INDEX [MORE_INDEXES]...`
 * `find Sentosa` followed by `delete 1`: Finds locations matching 'Sentosa', then deletes the 1st result from filtered
   list.
 * `list` followed by `delete 1 3 5`: Deletes the 1st, 3rd, and 5th locations in a single command.
+
 ### `plan` - Using the itinerary planner
 
 Displays all locations assigned to a given date in the Planner Panel, so you can view your day's plan at a glance.
@@ -359,7 +360,6 @@ Formats:
 * `plan`: Clears the planner page.
 
 <div markdown="block" class="alert alert-primary">:bulb: **Tip:**
-
 Each morning, run `plan today` to pull up everything you have scheduled. Combine with `find` and `edit` to build your
 upcoming days' itinerary too.
 
