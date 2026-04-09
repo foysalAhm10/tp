@@ -14,6 +14,12 @@ Class JsonUserPrefsStorage
 Class "<<interface>>\nStorage" as Storage
 Class StorageManager
 
+package "Shortcut Storage" #F4F6F6{
+Class "<<interface>>\nShortcutStorage" as ShortcutStorage
+Class JsonShortcutStorage
+Class JsonSerializableShortcutMap
+}
+
 package "AddressBook Storage" #F4F6F6{
 Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
 Class JsonAddressBookStorage
@@ -28,13 +34,17 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Storage
 
 StorageManager .up.|> Storage
-StorageManager -up-> "1" UserPrefsStorage
-StorageManager -up-> "1" AddressBookStorage
+StorageManager -left-> "1" UserPrefsStorage
+StorageManager -right-> "1" ShortcutStorage
+StorageManager -down-> "1" AddressBookStorage
 
 Storage -left-|> UserPrefsStorage
-Storage -right-|> AddressBookStorage
+Storage -right-|> ShortcutStorage
+Storage -down-|> AddressBookStorage
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
+JsonShortcutStorage .up.|> ShortcutStorage
+JsonShortcutStorage ..> JsonSerializableShortcutMap
 JsonAddressBookStorage .up.|> AddressBookStorage
 JsonAddressBookStorage ..> JsonSerializableAddressBook
 JsonSerializableAddressBook --> "*" JsonAdaptedLocation
