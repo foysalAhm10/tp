@@ -40,7 +40,6 @@ AddressMe is the app for you!
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
-<div style="page-break-after: always;"></div>
 
 ## 1. Quick Start
 
@@ -118,7 +117,6 @@ These rules apply to all commands that use names (e.g. add, edit).
 Can start with `+` and may include spaces or hyphens between digits (e.g. `91231234`, `9123 1234`, `+65 9124-1234`).
 
 Must contain at least one digit and be no longer than 15 characters.
-<div style="page-break-after: always;"></div>
 
 ### Date Formats
 
