@@ -118,6 +118,14 @@ Can start with `+` and may include spaces or hyphens between digits (e.g. `91231
 
 Must contain at least 3 digits and be no longer than 15 characters.
 
+### Tag Formats
+
+May include alphanumeric characters, spaces or hyphens.
+
+Must contain at least one alphanumeric character.
+
+All Tag inputs are translated and stored as lowercase.
+
 ### Date Formats
 
 AddressMe even accepts a large range of date inputs so you can type dates flexibly.
