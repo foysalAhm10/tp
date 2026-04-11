@@ -510,13 +510,13 @@ Use case ends.
 **Extensions**
 
 * 2a. The given details are invalid.
-* 2a1. System shows an error message, and if it can handle gracefully with incomplete data, will show the details it managed to add.
-Use case resumes at step 3.
+  * 2a1. System shows an error message, and if it can handle gracefully with incomplete data, will show the details it managed to add.
+  Use case resumes at step 3.
 
 
 * 2b. The given location name is invalid.
-* 2b1. System shows an error message and informs the user it is unable to add the entry.
-Use case ends.
+  * 2b1. System shows an error message and informs the user it is unable to add the entry.
+  Use case ends.
 
 ---
 
@@ -563,24 +563,26 @@ Use case ends.
 
 * 2a. The list is empty.
 Use case ends.
+
+
 * 3a. The given index is invalid (out of range or non-numeric).
-* 3a1. System shows an error message: "Invalid index. Please enter a valid location index."
-Use case resumes at step 2.
+  * 3a1. System shows an error message: "Invalid index. Please enter a valid location index."
+  Use case resumes at step 2.
 
 
 * 3b. The provided email format is invalid.
-* 3b1. System shows an error message regarding the invalid email.
-Use case resumes at step 2.
+  * 3b1. System shows an error message regarding the invalid email.
+  Use case resumes at step 2.
 
 
 * 3c. The provided phone number format is invalid.
-* 3c1. System shows an error message regarding the invalid phone number.
-Use case resumes at step 2.
+  * 3c1. System shows an error message regarding the invalid phone number.
+  Use case resumes at step 2.
 
 
 * 3d. The edited details result in a duplicate entry (it matches an existing entry's name + phone/email).
-* 3d1. System rejects the edit, leaves the original record unchanged, and shows an error message.
-Use case resumes at step 2.
+  * 3d1. System rejects the edit, leaves the original record unchanged, and shows an error message.
+  Use case resumes at step 2.
 
 ---
 
@@ -595,8 +597,8 @@ Use case ends.
 **Extensions**
 
 * 2a. The list is empty.
-* 2a1. System informs the user the list is empty.
-Use case ends.
+  * 2a1. System informs the user the list is empty.
+  Use case ends.
 
 ---
 
@@ -613,8 +615,8 @@ Use case ends.
 **Extensions**
 
 * 1a. The entered date is invalid.
-* 1a1. System informs the user of correct date and command format.
-  Use case ends.
+  * 1a1. System informs the user of correct date and command format.
+    Use case ends.
 
 ---
 
@@ -643,20 +645,20 @@ Use case ends.
 **Extensions**
 
 * 2a. The list of locations is empty.
-* 2a1. System informs the user that there are no locations to delete.
-Use case ends.
+  * 2a1. System informs the user that there are no locations to delete.
+  Use case ends.
 
 
 * 3a. At least one given index is invalid.
-* 3a1. System shows an error message.
-* 3a2. System lists the available locations again.
-Use case resumes at step 2.
+  * 3a1. System shows an error message.
+  * 3a2. System lists the available locations again.
+  Use case resumes at step 2.
 
 
 * 3b. Duplicate indices are provided (e.g., `delete 2 2`).
-* 3b1. System shows an error message.
-* 3b2. System lists the available locations again.
-Use case resumes at step 2.
+  * 3b1. System shows an error message.
+  * 3b2. System lists the available locations again.
+  Use case resumes at step 2.
 
 
 * *a. At any time, the user cancels the delete operation.
@@ -678,8 +680,8 @@ Use case ends.
 **Extensions**
 
 * 2a. There is no stored undo state.
-* 2a1. System shows an error message.
-Use case ends.
+  * 2a1. System shows an error message.
+  Use case ends.
 
 ---
 
@@ -696,8 +698,8 @@ Use case ends.
 **Extensions**
 
 * 2a. There is no stored redo state.
-* 2a1. System shows an error message.
-Use case ends.
+  * 2a1. System shows an error message.
+  Use case ends.
 
 ### Non-Functional Requirements
 
