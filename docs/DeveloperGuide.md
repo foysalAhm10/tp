@@ -628,7 +628,6 @@ Use case ends.
 2. System closes the application.
 Use case ends.
 
-**Extensions**
 
 ---
 
