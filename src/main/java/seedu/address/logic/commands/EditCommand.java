@@ -68,7 +68,6 @@ public class EditCommand extends Command {
             + PREFIX_DATE_REMOVE + "2026-02-01";
 
     public static final String MESSAGE_EDIT_LOCATION_SUCCESS = "Edited Location: %1$s";
-    public static final String MESSAGE_EMPTY_INDEX = "Index cannot be empty.";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_LOCATION = "This location already exists in the address book.";
     public static final String MESSAGE_CANNOT_OVERRIDE_AND_MODIFY_TAGS = "Cannot combine t/ with t+/ or t-/";
