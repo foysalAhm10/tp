@@ -283,22 +283,6 @@ The implementation involves three key components:
    * No changes needed; works seamlessly with the updated predicate
    * Reports filtered results to the UI through the model's filtered location list
 
-**Sequence Flow:**
-
-```
-User Input: "find Jo"
-    ↓
-FindCommandParser → Creates FindCommand with NameContainsKeywordsPredicate(["Jo"])
-    ↓
-FindCommand.execute() → Calls Model.updateFilteredLocationList(predicate)
-    ↓
-NameContainsKeywordsPredicate.test(location) → For each location, checks:
-    - containsSubstringIgnoreCase("John Restaurant", "Jo") → true ✓
-    - containsSubstringIgnoreCase("Jane Cafe", "Jo") → false ✗
-    ↓
-Result: "John Restaurant" is included in filtered list
-```
-
 **Key Changes:**
 
 | Component | Old Behavior | New Behavior |
