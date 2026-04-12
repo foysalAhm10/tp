@@ -554,36 +554,35 @@ Use case ends.
 
 **MSS**
 
-1. User requests to list locations using the list command.
-2. System shows a list of locations.
-3. User requests to edit a specific location in the list by providing its index and the new details to be updated.
-4. System updates the location and shows a success message with the updated details.
+1. User requests to edit a specific location in the list by providing its index and the new details to be updated.
+2. System updates the location and shows a success message with the updated details.
 Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
-Use case ends.
+* 1a. The given index is out of range.
+    * 1a1. System shows an invalid index error message.
+      Use case resumes at step 1.
 
 
-* 3a. The given index is invalid (out of range or non-numeric).
-  * 3a1. System shows an error message: "Invalid index. Please enter a valid location index."
-  Use case resumes at step 2.
+* 1b. The given index is not a valid integer.
+  * 1b1. System shows an invalid command format error message.
+  Use case resumes at step 1.
 
 
-* 3b. The provided email format is invalid.
-  * 3b1. System shows an error message regarding the invalid email.
-  Use case resumes at step 2.
+* 1c. The provided email format is invalid.
+  * 1c1. System shows an error message regarding the invalid email.
+  Use case resumes at step 1.
 
 
-* 3c. The provided phone number format is invalid.
-  * 3c1. System shows an error message regarding the invalid phone number.
-  Use case resumes at step 2.
+* 1d. The provided phone number format is invalid.
+  * 1d1. System shows an error message regarding the invalid phone number.
+  Use case resumes at step 1.
 
 
-* 3d. The edited details result in a duplicate entry (it matches an existing entry's name + phone/email).
-  * 3d1. System rejects the edit, leaves the original record unchanged, and shows an error message.
-  Use case resumes at step 2.
+* 1e. The edited details result in a duplicate entry (it matches an existing entry's name + phone/email).
+  * 1e1. System rejects the edit, leaves the original record unchanged, and shows an error message.
+  Use case resumes at step 1.
 
 ---
 
@@ -636,34 +635,25 @@ Use case ends.
 
 **MSS**
 
-1. User requests to list locations.
-2. System shows a list of locations.
-3. User requests to delete one or more locations.
-4. System deletes all specified locations.
+1. User requests to delete one or more locations by specifying their indices.
+2. System deletes all specified locations.
 Use case ends.
 
 **Extensions**
 
-* 2a. The list of locations is empty.
-  * 2a1. System informs the user that there are no locations to delete.
-  Use case ends.
+* 1a. At least one given index is out of range.
+  * 1a1. System shows an invalid index error message.
+  Use case resumes at step 1.
 
 
-* 3a. At least one given index is invalid.
-  * 3a1. System shows an error message.
-  * 3a2. System lists the available locations again.
-  Use case resumes at step 2.
+* 1b. Duplicate indices are provided (e.g., `delete 2 2`).
+  * 1b1. System shows a duplicate indices error message.
+  Use case resumes at step 1.
 
-
-* 3b. Duplicate indices are provided (e.g., `delete 2 2`).
-  * 3b1. System shows an error message.
-  * 3b2. System lists the available locations again.
-  Use case resumes at step 2.
-
-
-* *a. At any time, the user cancels the delete operation.
-* *a1. System aborts the delete operation.
-Use case ends.
+    
+* 1c. At least one given index are not valid integers.
+  * 1c1. System shows an invalid command format error message.
+    Use case resumes at step 1.
 
 ---
 
