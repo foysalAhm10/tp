@@ -28,7 +28,7 @@ public class PlanCommandParser implements Parser<PlanCommand> {
             return new PlanCommand(date);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(
-                    MESSAGE_INVALID_DATE_COMMAND_FORMAT, PlanCommand.MESSAGE_USAGE), ive);
+                    MESSAGE_INVALID_DATE_COMMAND_FORMAT, trimmedArgs, PlanCommand.MESSAGE_DATE_USAGE), ive);
         }
     }
 }

@@ -18,8 +18,12 @@ public class PlanCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Displays the all the locations listed for a "
             + "valid date in the right window.\n"
-            + "Parameters: DATE\n"
+            + "Parameters: [DATE]\n"
             + "Example: " + COMMAND_WORD + " 13/3/26";
+
+    public static final String MESSAGE_DATE_USAGE = "Try these formats with a valid date:\n"
+            + "yyyy-MM-dd, yyyy/MM/dd, d-M-yyyy, d/M/yyyy,\n"
+            + "d-M-yy, d/M/yy, d-M, d/M, day of the week (e.g. Thu or Thursday).";
 
     public static final String MESSAGE_DISPLAY_SUCCESS = "Displaying date: %1$s";
 

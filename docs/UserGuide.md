@@ -141,7 +141,8 @@ AddressMe even accepts a large range of date inputs so you can type dates flexib
 | **D/M/YYYY**     | **D-M-YYYY**     |
 | **D/M/YY**       | **D-M-YY**       |
 
-- With **day** and **month** (no **year**): AddressMe picks the next occurrence of that date.
+- With **day** and **month** (no **year**): AddressMe picks the next occurrence of that date. For edge cases like 
+29 Feb, if it does not exist in the year, AddressMe gracefully corrects it to 28 Feb.
 
 | **With slashes** | **With hyphens** |
 |------------------|------------------|
