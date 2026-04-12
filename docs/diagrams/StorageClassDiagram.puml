@@ -26,6 +26,7 @@ Class JsonAddressBookStorage
 Class JsonSerializableAddressBook
 Class JsonAdaptedLocation
 Class JsonAdaptedTag
+Class NoteContent
 }
 
 }
@@ -48,6 +49,7 @@ JsonShortcutStorage ..> JsonSerializableShortcutMap
 JsonAddressBookStorage .up.|> AddressBookStorage
 JsonAddressBookStorage ..> JsonSerializableAddressBook
 JsonSerializableAddressBook --> "*" JsonAdaptedLocation
+JsonSerializableAddressBook --> "*" NoteContent
 JsonAdaptedLocation --> "*" JsonAdaptedTag
 
 @enduml

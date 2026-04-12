@@ -150,10 +150,11 @@ The `Model` component,
 <img src="images/StorageClassDiagram.png" width="550" />
 
 The `Storage` component,
-* can save address book data, user preference data, and shortcut mappings in JSON format, and read them back into corresponding model objects.
+* can save address book data, planner notes, user preference data, and shortcut mappings in JSON format, and read them back into corresponding model objects.
 * exposes the `Storage` interface, which extends `AddressBookStorage`, `UserPrefsStorage`, and `ShortcutStorage`, so clients can depend on either the unified API or a narrower storage interface when needed.
 * is implemented by `StorageManager`, which delegates each persistence concern to `JsonAddressBookStorage`, `JsonUserPrefsStorage`, and `JsonShortcutStorage` respectively.
-* depends on classes in the `Model` component because it serializes and deserializes model-owned data such as the address book, user preferences, and shortcut map.
+* persists planner notes as part of the address book data. `JsonSerializableAddressBook` stores them in a top-level `notes` JSON object that maps each `VisitDate` data string to its `NoteContent` text, so notes are saved and loaded together with locations through `AddressBookStorage`.
+* depends on classes in the `Model` component because it serializes and deserializes model-owned data such as the address book, planner notes, user preferences, and shortcut map.
 
 ### Common classes
 
