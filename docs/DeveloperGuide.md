@@ -193,35 +193,29 @@ to the view controllers. We do this via the CommandResult class.
 #### Implementation
 
 Undo/redo is implemented as a single-level snapshot mechanism in `ModelManager`, scoped to undoable application state.
+Each snapshot stores a copy of the `AddressBook` and `ShortcutMap`.
 
-The model stores up to three snapshots:
+| Snapshot       | Purpose                                                           |
+|----------------|-------------------------------------------------------------------|
+| `pendingState` | Pre-command snapshot captured before a mutating command executes. |
+| `undoState`    | Last committed snapshot that `undo` can restore.                  |
+| `redoState`    | Last undone snapshot that `redo` can restore.                     |
 
-* `pendingState`: the pre-command snapshot captured before a mutating command executes
-* `undoState`: the last committed snapshot that `undo` can restore
-* `redoState`: the last undone snapshot that `redo` can restore
+* `Model#saveState()` captures the pending snapshot
+* `Model#commitState()` promotes it to `undoState` only if the command changed undoable state
+* `Model#discardState()` drops it after a failed command 
+* `Model#undoState()` and `Model#redoState()` restore stored snapshots while saving the current state to the opposite snapshot slot.
 
-Each snapshot stores:
+`LogicManager#execute(...)` coordinates snapshot handling centrally, as shown below:
 
-* a copy of the `AddressBook`
-* a copy of the `ShortcutMap`
+<img src="images/UndoRedoActivityDiagram.png" />
 
-The relevant model operations are:
+`undo` and `redo` are not treated as state-mutating commands in this flow. Instead, `UndoCommand` and `RedoCommand`
+check whether their respective snapshots exist, then call `Model#undoState()` or `Model#redoState()` directly.
 
-* `Model#saveState()`: captures the current undoable state before a mutating command runs
-* `Model#commitState()`: promotes the pending snapshot to the undo slot if the command actually changed state
-* `Model#discardState()`: drops the pending snapshot when command execution fails
-* `Model#undoState()`: restores the undo snapshot and saves the current state as the redo snapshot
-* `Model#redoState()`: restores the redo snapshot and saves the current state as the undo snapshot
-
-`LogicManager#execute(...)` coordinates this flow centrally:
-
-1. Parse the command.
-2. If `Command#isStateMutating()` is `true`, call `Model#saveState()`.
-3. Execute the command.
-4. If execution succeeds, call `Model#commitState()`.
-5. If execution fails, call `Model#discardState()` so failed commands do not affect undo history.
-
-`add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` return `true` for `isStateMutating()`. Non-mutating commands such as `list`, `find` and `plan` do not change undo/redo history. `undo` and `redo` themselves also do not create new history entries.
+* `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` return `true` for
+`isStateMutating()`. 
+* Non-mutating commands such as `list`, `find` and `plan` do not change undo/redo history. `undo` and `redo` themselves also do not create new history entries.
 
 Persistence is tracked separately from undo/redo history. `ModelManager` maintains dirty flags for the address book,
 shortcut map, and user preferences, and `LogicManager` only saves the storage slices that have unsaved changes after a
