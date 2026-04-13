@@ -46,6 +46,16 @@ public class Messages {
     }
 
     /**
+     * Returns an error message indicating the valid displayed index range for multiple indices.
+     */
+    public static String getInvalidLocationDisplayedIndexesMessage(int locationCount) {
+        if (locationCount <= 0) {
+            return "Invalid indices. There are no entries in the current list.";
+        }
+        return String.format("At least one of the indices is invalid. Valid index range is 1 to %d.", locationCount);
+    }
+
+    /**
      * Formats the {@code location} for display to the user.
      */
     public static String format(Location location) {

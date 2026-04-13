@@ -323,7 +323,7 @@ Format:
 `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`
 
 * Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location
-  list. The index **must be a positive number** 1, 2, 3, ...
+  list. The index **must be a positive number** (e.g. 1, 2, 3, ...)
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input.
 * To clear a field, provide the prefix without a value (e.g. `p/` to clear phone).
@@ -369,10 +369,11 @@ This also applies to existing tags — if a tag already exists and is both added
 <div style="page-break-after: always;"></div>
 ### `delete` - Deleting a location
 
-Removes one or more locations from your address book, keeping it clean and relevant throughout your journey.<br>
-Accepts multiple unique index numbers in a single command.
+Removes one or more locations from your address book, keeping it clean and relevant throughout your journey.
 
 Format: `delete INDEX [MORE_INDEXES]...`
+
+* Accepts multiple unique index numbers in a single command. All indices **must be positive numbers** (e.g. 1, 2, 3, ...)
 
 <div markdown="block" class="alert alert-primary">:bulb: **Tip:** Deleted anything by accident? Try the `undo` command listed [here](#undo---reverting-the-last-change)!
 </div>

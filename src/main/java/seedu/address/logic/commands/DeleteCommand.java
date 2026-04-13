@@ -31,6 +31,8 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_LOCATION_SUCCESS = "Deleted Location: %1$s";
     public static final String MESSAGE_DELETE_LOCATIONS_SUCCESS = "Deleted Locations:\n%1$s";
     public static final String MESSAGE_DUPLICATE_INDEX = "Duplicate indices are not allowed.";
+    public static final String MESSAGE_INVALID_INDEXES = "At least one of the indices is not a non-zero unsigned "
+            + "integer.";
 
     private final List<Index> targetIndexes;
 
@@ -63,7 +65,10 @@ public class DeleteCommand extends Command {
             }
 
             if (targetIndex.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.getInvalidLocationDisplayedIndexMessage(lastShownList.size()));
+                String message = targetIndexes.size() > 1
+                        ? Messages.getInvalidLocationDisplayedIndexesMessage(lastShownList.size())
+                        : Messages.getInvalidLocationDisplayedIndexMessage(lastShownList.size());
+                throw new CommandException(message);
             }
 
             locationsToDelete.add(lastShownList.get(targetIndex.getZeroBased()));

@@ -20,20 +20,38 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteCommand parse(String args) throws ParseException {
-        try {
-            String trimmedArgs = args.trim();
-            String[] indexTokens = trimmedArgs.split("\\s+");
+        String trimmedArgs = args.trim();
+        String[] indexTokens = trimmedArgs.split("\\s+");
 
-            List<Index> indexes = new ArrayList<>();
-            for (String indexToken : indexTokens) {
-                indexes.add(ParserUtil.parseIndex(indexToken));
-            }
-
-            return new DeleteCommand(indexes);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
+
+        for (String indexToken : indexTokens) {
+            if (!isInteger(indexToken)) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            }
+        }
+
+        List<Index> indexes = new ArrayList<>();
+        for (String indexToken : indexTokens) {
+            Index index;
+            try {
+                index = ParserUtil.parseIndex(indexToken);
+            } catch (ParseException pe) {
+                if (indexTokens.length > 1) {
+                    throw new ParseException(DeleteCommand.MESSAGE_INVALID_INDEXES, pe);
+                }
+                throw pe;
+            }
+            indexes.add(index);
+        }
+
+        return new DeleteCommand(indexes);
+    }
+
+    private static boolean isInteger(String token) {
+        return token.matches("[+-]?\\d+");
     }
 
 }

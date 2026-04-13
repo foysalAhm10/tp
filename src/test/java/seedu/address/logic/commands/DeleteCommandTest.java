@@ -55,6 +55,15 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void execute_invalidMultipleIndexesUnfilteredList_throwsCommandException() {
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredLocationList().size() + 1);
+        DeleteCommand deleteCommand = new DeleteCommand(List.of(INDEX_FIRST_LOCATION, outOfBoundIndex));
+
+        assertCommandFailure(deleteCommand, model,
+                Messages.getInvalidLocationDisplayedIndexesMessage(model.getFilteredLocationList().size()));
+    }
+
+    @Test
     public void execute_validIndexesUnfilteredList_success() {
         Location firstLocationToDelete = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
         Location thirdLocationToDelete = model.getFilteredLocationList().get(INDEX_THIRD_LOCATION.getZeroBased());
@@ -105,6 +114,20 @@ public class DeleteCommandTest {
 
         assertCommandFailure(deleteCommand, model,
                 Messages.getInvalidLocationDisplayedIndexMessage(model.getFilteredLocationList().size()));
+    }
+
+    @Test
+    public void execute_invalidMultipleIndexesFilteredList_throwsCommandException() {
+        showLocationAtIndex(model, INDEX_FIRST_LOCATION);
+
+        Index outOfBoundIndex = INDEX_SECOND_LOCATION;
+        // ensures that outOfBoundIndex is still in bounds of address book list
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getLocationList().size());
+
+        DeleteCommand deleteCommand = new DeleteCommand(List.of(INDEX_FIRST_LOCATION, outOfBoundIndex));
+
+        assertCommandFailure(deleteCommand, model,
+                Messages.getInvalidLocationDisplayedIndexesMessage(model.getFilteredLocationList().size()));
     }
 
     @Test
