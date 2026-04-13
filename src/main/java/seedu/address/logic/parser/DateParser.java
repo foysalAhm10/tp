@@ -19,8 +19,8 @@ import seedu.address.commons.exceptions.IllegalValueException;
  * Represents a static utility class that can convert between Strings and LocalDate, MonthDay and DayOfWeek
  */
 public class DateParser {
-    public static final String MESSAGE_WRONG_DATE_FORMAT = "Invalid date or format!\nTry using these formats with a valid date:\n"
-            + "yyyy-MM-dd, yyyy/MM/dd, d-M-yyyy, d/M/yyyy, "
+    public static final String MESSAGE_WRONG_DATE_FORMAT = "Invalid date or format!\nTry using these formats"
+            + " with a valid date:\nyyyy-MM-dd, yyyy/MM/dd, d-M-yyyy, d/M/yyyy, "
             + "d-M-yy, d/M/yy, d-M, d/M, day of the week (e.g. Thu or Thursday).";
 
     public static final String MESSAGE_WRONG_MONTH_DAY_FORMAT = "Not a valid month and day format! "
