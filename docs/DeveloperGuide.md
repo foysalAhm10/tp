@@ -150,10 +150,11 @@ The `Model` component,
 <img src="images/StorageClassDiagram.png" width="550" />
 
 The `Storage` component,
-* can save address book data, user preference data, and shortcut mappings in JSON format, and read them back into corresponding model objects.
+* can save address book data, planner notes, user preference data, and shortcut mappings in JSON format, and read them back into corresponding model objects.
 * exposes the `Storage` interface, which extends `AddressBookStorage`, `UserPrefsStorage`, and `ShortcutStorage`, so clients can depend on either the unified API or a narrower storage interface when needed.
 * is implemented by `StorageManager`, which delegates each persistence concern to `JsonAddressBookStorage`, `JsonUserPrefsStorage`, and `JsonShortcutStorage` respectively.
-* depends on classes in the `Model` component because it serializes and deserializes model-owned data such as the address book, user preferences, and shortcut map.
+* persists planner notes as part of the address book data. `JsonSerializableAddressBook` stores them in a top-level `notes` JSON object that maps each `VisitDate` data string to its `NoteContent` text, so notes are saved and loaded together with locations through `AddressBookStorage`.
+* depends on classes in the `Model` component because it serializes and deserializes model-owned data such as the address book, planner notes, user preferences, and shortcut map.
 
 ### Common classes
 
@@ -192,35 +193,29 @@ to the view controllers. We do this via the CommandResult class.
 #### Implementation
 
 Undo/redo is implemented as a single-level snapshot mechanism in `ModelManager`, scoped to undoable application state.
+Each snapshot stores a copy of the `AddressBook` and `ShortcutMap`.
 
-The model stores up to three snapshots:
+| Snapshot       | Purpose                                                           |
+|----------------|-------------------------------------------------------------------|
+| `pendingState` | Pre-command snapshot captured before a mutating command executes. |
+| `undoState`    | Last committed snapshot that `undo` can restore.                  |
+| `redoState`    | Last undone snapshot that `redo` can restore.                     |
 
-* `pendingState`: the pre-command snapshot captured before a mutating command executes
-* `undoState`: the last committed snapshot that `undo` can restore
-* `redoState`: the last undone snapshot that `redo` can restore
+* `Model#saveState()` captures the pending snapshot
+* `Model#commitState()` promotes it to `undoState` only if the command changed undoable state
+* `Model#discardState()` drops it after a failed command 
+* `Model#undoState()` and `Model#redoState()` restore stored snapshots while saving the current state to the opposite snapshot slot.
 
-Each snapshot stores:
+`LogicManager#execute(...)` coordinates snapshot handling centrally, as shown below:
 
-* a copy of the `AddressBook`
-* a copy of the `ShortcutMap`
+<img src="images/UndoRedoActivityDiagram.png" />
 
-The relevant model operations are:
+`undo` and `redo` are not treated as state-mutating commands in this flow. Instead, `UndoCommand` and `RedoCommand`
+check whether their respective snapshots exist, then call `Model#undoState()` or `Model#redoState()` directly.
 
-* `Model#saveState()`: captures the current undoable state before a mutating command runs
-* `Model#commitState()`: promotes the pending snapshot to the undo slot if the command actually changed state
-* `Model#discardState()`: drops the pending snapshot when command execution fails
-* `Model#undoState()`: restores the undo snapshot and saves the current state as the redo snapshot
-* `Model#redoState()`: restores the redo snapshot and saves the current state as the undo snapshot
-
-`LogicManager#execute(...)` coordinates this flow centrally:
-
-1. Parse the command.
-2. If `Command#isStateMutating()` is `true`, call `Model#saveState()`.
-3. Execute the command.
-4. If execution succeeds, call `Model#commitState()`.
-5. If execution fails, call `Model#discardState()` so failed commands do not affect undo history.
-
-`add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` return `true` for `isStateMutating()`. Non-mutating commands such as `list`, `find` and `plan` do not change undo/redo history. `undo` and `redo` themselves also do not create new history entries.
+* `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` return `true` for
+`isStateMutating()`. 
+* Non-mutating commands such as `list`, `find` and `plan` do not change undo/redo history. `undo` and `redo` themselves also do not create new history entries.
 
 Persistence is tracked separately from undo/redo history. `ModelManager` maintains dirty flags for the address book,
 shortcut map, and user preferences, and `LogicManager` only saves the storage slices that have unsaved changes after a
@@ -525,36 +520,35 @@ Use case ends.
 
 **MSS**
 
-1. User requests to list locations using the list command.
-2. System shows a list of locations.
-3. User requests to edit a specific location in the list by providing its index and the new details to be updated.
-4. System updates the location and shows a success message with the updated details.
+1. User requests to edit a specific location in the list by providing its index and the new details to be updated.
+2. System updates the location and shows a success message with the updated details.
 Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
-Use case ends.
+* 1a. The given index is out of range.
+    * 1a1. System shows an invalid index error message.
+      Use case resumes at step 1.
 
 
-* 3a. The given index is invalid (out of range or non-numeric).
-  * 3a1. System shows an error message: "Invalid index. Please enter a valid location index."
-  Use case resumes at step 2.
+* 1b. The given index is not a valid integer.
+  * 1b1. System shows an invalid command format error message.
+  Use case resumes at step 1.
 
 
-* 3b. The provided email format is invalid.
-  * 3b1. System shows an error message regarding the invalid email.
-  Use case resumes at step 2.
+* 1c. The provided email format is invalid.
+  * 1c1. System shows an error message regarding the invalid email.
+  Use case resumes at step 1.
 
 
-* 3c. The provided phone number format is invalid.
-  * 3c1. System shows an error message regarding the invalid phone number.
-  Use case resumes at step 2.
+* 1d. The provided phone number format is invalid.
+  * 1d1. System shows an error message regarding the invalid phone number.
+  Use case resumes at step 1.
 
 
-* 3d. The edited details result in a duplicate entry (it matches an existing entry's name + phone/email).
-  * 3d1. System rejects the edit, leaves the original record unchanged, and shows an error message.
-  Use case resumes at step 2.
+* 1e. The edited details result in a duplicate entry (it matches an existing entry's name + phone/email).
+  * 1e1. System rejects the edit, leaves the original record unchanged, and shows an error message.
+  Use case resumes at step 1.
 
 ---
 
@@ -607,34 +601,25 @@ Use case ends.
 
 **MSS**
 
-1. User requests to list locations.
-2. System shows a list of locations.
-3. User requests to delete one or more locations.
-4. System deletes all specified locations.
+1. User requests to delete one or more locations by specifying their indices.
+2. System deletes all specified locations.
 Use case ends.
 
 **Extensions**
 
-* 2a. The list of locations is empty.
-  * 2a1. System informs the user that there are no locations to delete.
-  Use case ends.
+* 1a. At least one given index is out of range.
+  * 1a1. System shows an invalid index error message.
+  Use case resumes at step 1.
 
 
-* 3a. At least one given index is invalid.
-  * 3a1. System shows an error message.
-  * 3a2. System lists the available locations again.
-  Use case resumes at step 2.
+* 1b. Duplicate indices are provided (e.g., `delete 2 2`).
+  * 1b1. System shows a duplicate indices error message.
+  Use case resumes at step 1.
 
-
-* 3b. Duplicate indices are provided (e.g., `delete 2 2`).
-  * 3b1. System shows an error message.
-  * 3b2. System lists the available locations again.
-  Use case resumes at step 2.
-
-
-* *a. At any time, the user cancels the delete operation.
-* *a1. System aborts the delete operation.
-Use case ends.
+    
+* 1c. At least one given index are not valid integers.
+  * 1c1. System shows an invalid command format error message.
+    Use case resumes at step 1.
 
 ---
 
@@ -838,11 +823,11 @@ testers are expected to do more *exploratory* testing.
        Expected: Location is successfully added.
 
     2. Test case:  
-       `add n/Test p/123-456-789`  
+       `add n/Test2 p/123-456-789`
        Expected: Location is successfully added.
 
     3. Test case:  
-       `add n/Test p/-1234`  
+       `add n/Test3 p/-1234`  
        Expected: Error message shown.
 
 

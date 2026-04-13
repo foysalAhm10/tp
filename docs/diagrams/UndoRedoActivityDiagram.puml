@@ -1,0 +1,43 @@
+@startuml
+!include style.puml
+skinparam ActivityFontSize 13
+skinparam ArrowFontSize 11
+skinparam ActivityBorderColor #000000
+skinparam ActivityBackgroundColor #FFFFFF
+skinparam ActivityDiamondBorderColor #000000
+skinparam ActivityDiamondBackgroundColor #FFFFFF
+skinparam ArrowFontStyle plain
+
+title Undo/redo state handling during command execution
+
+start
+:LogicManager receives command text;
+:Expand shortcuts;
+:Parse command;
+
+if () then ([command is state-mutating])
+    :Model.saveState();
+else ([else])
+endif
+
+:Execute command;
+
+if () then ([execution succeeds])
+    if () then ([command is state-mutating])
+        :Model.commitState();
+    else ([else])
+    endif
+
+    :Save dirty persistent state;
+    :Return CommandResult;
+    stop
+else ([else])
+    if () then ([command is state-mutating])
+        :Model.discardState();
+    else ([else])
+    endif
+
+    :Throw exception;
+    stop
+endif
+@enduml
