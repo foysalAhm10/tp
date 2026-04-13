@@ -260,7 +260,6 @@ The implementation is intentionally limited to one level:
   * Pros: Commands can create a  snapshot at very precise points in execution.
   * Cons: Easier to forget in new commands, and failure handling becomes duplicated across commands.
 
-<div style="page-break-after: always;"></div>
 
 ### Advanced Filtering in Find Command
 #### Implementation
@@ -563,6 +562,8 @@ Use case ends.
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 **Use case: List all locations**
 
 **MSS**
@@ -803,6 +804,8 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `redo` again<br>
       Expected: No data changes. An error message is shown because only one redo level is supported.
 
+<div style="page-break-after: always;"></div>
+
 ### Using Planner Panel
 
 1. Viewing Locations and Notes
@@ -841,6 +844,7 @@ testers are expected to do more *exploratory* testing.
        `add n/Test3 p/-1234`  
        Expected: Error message shown.
 
+<div style="page-break-after: always;"></div>
 
 ### Editing Fields to Empty
 
