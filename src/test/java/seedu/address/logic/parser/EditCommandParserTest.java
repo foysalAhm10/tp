@@ -83,6 +83,15 @@ public class EditCommandParserTest {
 
         // invalid prefix being parsed as preamble
         assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
+
+        // preamble size one but bad form
+        assertParseFailure(parser, "/n n/test name", MESSAGE_INVALID_FORMAT);
+
+        // preamble size one but bad form (generic string)
+        assertParseFailure(parser, "abc n/test name", MESSAGE_INVALID_FORMAT);
+
+        // preamble size one, an integer but not a non-zero unsigned integer
+        assertParseFailure(parser, "-1 n/test name", ParserUtil.MESSAGE_INVALID_INDEX);
     }
 
     @Test

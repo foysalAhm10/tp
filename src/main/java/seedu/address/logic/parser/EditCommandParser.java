@@ -50,8 +50,9 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         String preamble = argMultimap.getPreamble().trim();
         String[] preambleParts = preamble.split("\\s+");
+        boolean isBadIndex = preamble.isEmpty() || preambleParts.length != 1 || !preamble.matches("-?\\d+");
 
-        if (preamble.isEmpty() || preambleParts.length != 1) {
+        if (isBadIndex) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
         }
 
