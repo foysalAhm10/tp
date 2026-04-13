@@ -488,7 +488,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. At least one of the given details are invalid.
     * 2a1. System shows an error message.<br>
-      Use case resumes at step 1.
+      Use case ends.
 
 
 * 2b. The name field is empty.
